@@ -1,12 +1,15 @@
 {
     "name": "diy-app",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "index.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start:backend": "npm run dev --prefix server",
+        "build:backend": "npm run build --prefix server",
+        "build:frontend": "npm run build --prefix client",
+        "start:backend": "ts-node-dev --respawn --transpile-only server/src/index.ts",
         "start:frontend": "npm --prefix client run dev",
-        "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+        "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+        "create-migration": "tsx scripts/createMigration.ts"
     },
     "keywords": [],
     "author": "",
@@ -16,5 +19,18 @@
         "server",
         "client"
     ],
-    "dependencies": {}
+    "devDependencies": {
+        "@types/dotenv": "^8.2.0",
+        "@types/express": "^4.17.21",
+        "@types/node": "^22.0.0",
+        "@types/pg": "^8.11.6",
+        "typescript": "^5.5.4",
+        "ts-node-dev": "^2.0.0",
+        "concurrently": "^7.6.0"
+    },
+    "dependencies": {
+        "dotenv": "^16.4.5",
+        "express": "^4.18.2",
+        "pg": "^8.11.1"
+    }
 }

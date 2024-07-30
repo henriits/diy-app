@@ -16,16 +16,37 @@ export const createUser = async (req: Request, res: Response) => {
     const { name, email, password } = validation.data;
 
     try {
+        // Log the plain password
+        console.log("plain password", password);
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+        // Log the hashed password
+        console.log("Hashed password:", hashedPassword);
 
         const [user] = await db
             .insertInto("users")
             .values({ name, email, password: hashedPassword })
             .returning(["id", "name", "email"])
             .execute();
-
+        // Log the user object
+        console.log("Created user:", user);
         res.status(201).json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+// how to test this out, console log hash and password etc
+// Get all users
+export const getUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await db
+            .selectFrom("users")
+            .select(["id", "name", "email"])
+            .execute();
+
+        res.status(200).json(users);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Internal server error" });

@@ -1,54 +1,73 @@
+/* eslint-disable no-console */
 import "dotenv/config";
-import * as path from "path";
-import * as fs from "fs/promises";
-import { Pool } from "pg";
-import { FileMigrationProvider, Kysely, PostgresDialect } from "kysely";
-import { migrateToLatest } from "."; // Adjust path if needed
+import * as path from "node:path";
+import * as fs from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import {
+    FileMigrationProvider,
+    Migrator,
+    type Kysely,
+    type MigrationProvider,
+} from "kysely";
+import config from "@server/config";
+import { createDatabase } from "..";
 
-const MIGRATION_PATH = "../migrations";
+const MIGRATIONS_PATH = "../migrations";
 
-async function migrateDefault(url: string) {
-    const pool = new Pool({ connectionString: url });
-
-    const db = new Kysely({
-        dialect: new PostgresDialect({
-            pool,
-        }),
-    });
+async function migrateLatest(db: Kysely<any>) {
+    const dirname = path.dirname(fileURLToPath(import.meta.url));
 
     const nodeProvider = new FileMigrationProvider({
         fs,
         path,
-        migrationFolder: path.join(__dirname, MIGRATION_PATH),
+        migrationFolder: path.join(dirname, MIGRATIONS_PATH),
     });
 
-    const { error, results } = await migrateToLatest(nodeProvider, db);
+    const { results, error } = await migrateToLatest(nodeProvider, db);
+
+    if (!results?.length && !error) {
+        console.log("No migrations to run.");
+    }
 
     results?.forEach((it) => {
         if (it.status === "Success") {
-            console.log(
-                `migration "${it.migrationName}" was executed successfully`
+            console.info(
+                `Migration "${it.migrationName}" was executed successfully.`
             );
         } else if (it.status === "Error") {
-            console.error(`failed to execute migration "${it.migrationName}"`);
+            console.error(`Failed to execute migration "${it.migrationName}".`);
         }
     });
 
     if (error) {
-        console.log("failed to migrate");
-        console.log(error);
+        console.error("Failed to migrate.");
+        console.error(error);
         process.exit(1);
     }
 
-    await pool.end();
+    await db.destroy();
 }
 
-if (require.main === module) {
-    const { DATABASE_URL } = process.env;
+export async function migrateToLatest(
+    provider: MigrationProvider,
+    db: Kysely<any>
+) {
+    const migrator = new Migrator({
+        db,
+        provider,
+    });
 
-    if (typeof DATABASE_URL !== "string") {
-        throw new Error("Provide DATABASE_URL in your environment variables");
-    }
+    return migrator.migrateToLatest();
+}
 
-    migrateDefault(DATABASE_URL);
+const pathToThisFile = path.resolve(fileURLToPath(import.meta.url));
+const pathPassedToNode = path.resolve(process.argv[1]);
+const isFileRunDirectly = pathToThisFile.includes(pathPassedToNode);
+
+if (isFileRunDirectly) {
+    const db = createDatabase(config.database);
+    const testDb = createDatabase(config.testDatabase);
+
+    await migrateLatest(db);
+    await migrateLatest(testDb);
 }

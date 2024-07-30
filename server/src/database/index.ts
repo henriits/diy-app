@@ -1,17 +1,21 @@
-import { Kysely, PostgresDialect } from "kysely";
-import { Pool } from "pg";
-import { DB } from "./types"; // Make sure this matches your DB schema
+import {
+    CamelCasePlugin,
+    Kysely,
+    ParseJSONResultsPlugin,
+    PostgresDialect,
+} from "kysely";
+import pg from "pg";
+import type { DB } from "./types";
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false, // Set to true in production if using SSL
-    },
-});
+export function createDatabase(options: pg.PoolConfig): Kysely<DB> {
+    return new Kysely<DB>({
+        dialect: new PostgresDialect({
+            pool: new pg.Pool(options),
+        }),
+        plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
+    });
+}
 
-const db = new Kysely<DB>({
-    dialect: new PostgresDialect({ pool }),
-    // Add any additional configurations if needed
-});
-
-export { db };
+export type Database = Kysely<DB>;
+export type DatabasePartial<T> = Kysely<T>;
+export * from "./types";

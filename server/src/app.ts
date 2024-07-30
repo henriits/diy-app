@@ -1,9 +1,9 @@
 // src/app.ts
-import express, { Application, Request, Response } from "express";
-import { db } from "./database"; // Import the db instance
-import { createUser, getUsers } from "../src/modules/users/controller";
+import express from "express";
+import { createUser, getUsers } from "./modules/users/controller";
+import type { Database } from "./database";
 
-const createApp = (database: typeof db): Application => {
+export default function createApp(db: Database) {
     const app = express();
 
     // Middleware setup
@@ -14,8 +14,5 @@ const createApp = (database: typeof db): Application => {
 
     // Route to get all users
     app.get("/users", getUsers);
-
     return app;
-};
-
-export default createApp;
+}

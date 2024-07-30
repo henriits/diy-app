@@ -1,11 +1,14 @@
 import express, { Application, Request, Response } from "express";
-import { Pool } from "pg";
+import { Kysely } from "kysely";
+import { DB } from "./database/types"; // Import your DB types
+import bcrypt from "bcrypt";
 
-const createApp = (database: Pool): Application => {
+const createApp = (database: Kysely<DB>): Application => {
     const app = express();
 
-    // Middleware setup, e.g., bodyParser, cors, etc.
+    // Middleware setup
     app.use(express.json());
+
     // Example route
     app.get("/", (req: Request, res: Response) => {
         res.send("Homepage");
@@ -13,12 +16,24 @@ const createApp = (database: Pool): Application => {
     });
 
     // Example route with database interaction
-    app.get("/users", async (req: Request, res: Response) => {
+    app.post("/users", async (req: Request, res: Response) => {
+        const { name, email, password } = req.body;
+
+        // Validate the request body, hash password, and create user
         try {
-            const { rows } = await database.query("SELECT * FROM users");
-            res.json(rows);
+            // Add validation and password hashing logic here
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            const [user] = await database
+                .insertInto("users")
+                .values({ name, email, password: hashedPassword })
+                .returning(["id", "name", "email"])
+                .execute();
+
+            res.status(201).json(user);
         } catch (err) {
-            res.status(500).send("Error");
+            console.error(err);
+            res.status(500).json({ message: "Internal server error" });
         }
     });
 

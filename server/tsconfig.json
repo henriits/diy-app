@@ -1,16 +1,24 @@
 {
+    "extends": "@tsconfig/node20/tsconfig.json",
+
     "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": ".",
+        "outDir": "dist",
+        "sourceMap": true,
+
+        "module": "ESNext",
         "target": "ESNext",
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
+        "moduleResolution": "Node",
+
         "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "resolveJsonModule": true
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+        "verbatimModuleSyntax": true,
+
+        "types": ["vitest/globals"],
+
+        "paths": {
+            "@server/*": ["./src/*"],
+            "@tests/*": ["./tests/*"]
+        }
+    }
 }

@@ -1,17 +1,23 @@
-import { Kysely, PostgresDialect } from "kysely";
+import { sql, type Kysely } from "kysely";
 
-export async function up(db: Kysely<PostgresDialect>) {
-    // Add your migration up logic here
+export async function up(db: Kysely<any>) {
     await db.schema
         .createTable("users")
-        .addColumn("id", "serial", (col) => col.notNull())
-        .addColumn("name", "varchar(100)", (col) => col.notNull())
-        .addColumn("email", "varchar(255)", (col) => col.notNull().unique())
-        .addColumn("password", "varchar(255)", (col) => col.notNull())
+        .addColumn("id", "integer", (c) =>
+            c.primaryKey().generatedAlwaysAsIdentity()
+        )
+        .addColumn("firstName", "text", (c) => c.unique().notNull())
+        .addColumn("lastName", "text", (c) => c.unique().notNull())
+        .addColumn("username", "text", (c) => c.unique().notNull())
+        .addColumn("email", "text", (c) => c.unique().notNull())
+        .addColumn("password", "text", (c) => c.notNull())
+        .addColumn("is_admin", "boolean", (c) => c.defaultTo(false).notNull())
+        .addColumn("created_at", "timestamptz", (column) =>
+            column.defaultTo(sql`CURRENT_TIMESTAMP`).notNull()
+        )
         .execute();
 }
 
-export async function down(db: Kysely<PostgresDialect>) {
-    // Add your migration down logic here
+export async function down(db: Kysely<any>) {
     await db.schema.dropTable("users").execute();
 }

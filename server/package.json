@@ -10,11 +10,12 @@
         "typecheck": "tsc --noEmit",
         "format": "prettier --write \"src/**/*.ts\"",
         "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
-        "migrate:latest": "tsx src/database/migrate/bin",
+        "migrate:new": "tsx ./src/database/migrate/new",
+        "migrate:latest": "tsx src/database/migrate/latest",
+        "migrate:latest:prod": "npm run node-es dist/database/migrate/latest.js",
         "gen:types": "kysely-codegen --camel-case --dialect postgres --out-file src/database/types.ts && prettier --write src/database/types.ts",
         "test": "vitest",
-        "coverage": "vitest run --coverage",
-        "create-migration": "tsx src/database/migrate/createMigration.ts"
+        "coverage": "vitest run --coverage"
     },
     "keywords": [],
     "author": "",

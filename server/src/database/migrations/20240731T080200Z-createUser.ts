@@ -8,7 +8,7 @@ export async function up(db: Kysely<PostgresDialect>) {
         .addColumn("name", "varchar(100)", (col) => col.notNull())
         .addColumn("email", "varchar(255)", (col) => col.notNull().unique())
         .addColumn("password", "varchar(255)", (col) => col.notNull())
-        .execute(); // Increased length for hashed passwords
+        .execute();
 }
 
 export async function down(db: Kysely<PostgresDialect>) {

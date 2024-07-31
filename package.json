@@ -8,8 +8,7 @@
         "build:frontend": "npm run build --prefix client",
         "start:backend": "ts-node-dev --respawn --transpile-only server/src/index.ts",
         "start:frontend": "npm --prefix client run dev",
-        "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-        "create-migration": "tsx scripts/createMigration.ts"
+        "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
     },
     "keywords": [],
     "author": "",

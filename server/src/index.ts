@@ -1,19 +1,18 @@
-import "dotenv/config";
 import createApp from "./app";
-import { db } from "./database"; // Import the db instance
+import { createDatabase } from "./database";
+import config from "./config";
 
-const PORT = process.env.PORT || 3002;
+const database = createDatabase(config.database);
+const app = createApp(database);
+
+app.listen(config.port, () => {
+    console.log(`Server is running at http://localhost:${config.port}`);
+});
 
 if (!process.env.DATABASE_URL) {
     throw new Error(
         "DATABASE_URL is not defined in the environment variables."
     );
 }
-
-const app = createApp(db);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
 
 console.log("This is the server");

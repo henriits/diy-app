@@ -14,6 +14,11 @@ export default defineConfig({
                 '**/src/entities/**',
                 '**/src/trpc/index.ts',
                 '**/src/repositories/index.ts',
+                'src/tests/**/*.{ts,js}',
+                '**/*.spec.{ts,js}',
+                'src/tests/**/*', // Exclude all files in the tests folder
+                '**/*.spec.ts', // Exclude all files ending with .spec.ts
+                '**/*.test.ts', // Exclude all files ending with .test.ts
             ],
         },
 

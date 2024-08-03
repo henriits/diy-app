@@ -1,4 +1,4 @@
-import type { Users, Projects } from "@server/database/types";
+import type { Users, Projects, Comments } from "@server/database/types";
 import type { Insertable } from "kysely";
 import type { AuthUser } from "@server/entities/users";
 import { random } from "./random";
@@ -56,3 +56,17 @@ export const fakeProject = <T extends Partial<Insertable<Projects>>>(
         userId: randomId(),
         ...overrides,
     }) satisfies Insertable<Projects>;
+
+/**
+ * Generates a fake comment with some default test data.
+ * @param overrides Any properties that should be different from default fake data.
+ */
+export const fakeComment = <T extends Partial<Insertable<Comments>>>(
+    overrides: T = {} as T
+) =>
+    ({
+        projectId: randomId(),
+        userId: randomId(),
+        content: random.paragraph(),
+        ...overrides,
+    }) satisfies Insertable<Comments>;

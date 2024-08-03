@@ -7,6 +7,25 @@ export type Generated<T> =
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
+export interface Comments {
+  content: string;
+  createdAt: Generated<Timestamp>;
+  id: Generated<number>;
+  projectId: number;
+  userId: number;
+}
+
+export interface ProjectCategories {
+  createdAt: Generated<Timestamp>;
+  id: Generated<number>;
+  name: string;
+}
+
+export interface ProjectCategoryAssignments {
+  categoryId: number;
+  projectId: number;
+}
+
 export interface Projects {
   createdAt: Generated<Timestamp>;
   description: string | null;
@@ -15,6 +34,14 @@ export interface Projects {
   materials: string | null;
   title: string;
   updatedAt: Generated<Timestamp>;
+  userId: number;
+}
+
+export interface Ratings {
+  createdAt: Generated<Timestamp>;
+  id: Generated<number>;
+  projectId: number;
+  rating: number;
   userId: number;
 }
 
@@ -30,6 +57,10 @@ export interface Users {
 }
 
 export interface DB {
+  comments: Comments;
+  projectCategories: ProjectCategories;
+  projectCategoryAssignments: ProjectCategoryAssignments;
   projects: Projects;
+  ratings: Ratings;
   users: Users;
 }

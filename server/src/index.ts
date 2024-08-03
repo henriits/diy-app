@@ -14,5 +14,3 @@ if (!process.env.DATABASE_URL) {
         "DATABASE_URL is not defined in the environment variables."
     );
 }
-
-console.log("This is the server");

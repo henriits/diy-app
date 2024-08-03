@@ -12,7 +12,7 @@ const repository = usersRepository(db);
 describe("create", () => {
     it("should create a new user", async () => {
         const user = fakeUser();
-
+        console.log(fakeUser());
         const createdUser = await repository.create(user);
 
         expect(createdUser).toEqual({

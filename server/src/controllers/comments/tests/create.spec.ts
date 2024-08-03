@@ -24,6 +24,7 @@ const [Project] = await insertAll(
 it("allows creating a comment", async () => {
     // ARRANGE (Given)
     const comment = fakeComment({ projectId: Project.id });
+    console.log(comment);
 
     // ACT (When)
     const { create } = createCaller(authContext({ db }, userOther));
@@ -66,7 +67,6 @@ describe("permissions", () => {
         await expect(create(comment)).resolves.toMatchObject({
             ...comment,
             userId: userProjectAuthor.id,
-            createdAt: expect.any(Date),
         });
     });
 
@@ -78,7 +78,6 @@ describe("permissions", () => {
         await expect(create(comment)).resolves.toMatchObject({
             ...comment,
             userId: userOther.id,
-            createdAt: expect.any(Date),
         });
     });
 

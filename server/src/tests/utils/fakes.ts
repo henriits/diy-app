@@ -1,4 +1,9 @@
-import type { Users, Projects, Comments } from "@server/database/types";
+import type {
+    Users,
+    Projects,
+    Comments,
+    ProjectCategories,
+} from "@server/database/types";
 import type { Insertable } from "kysely";
 import type { AuthUser } from "@server/entities/users";
 import { random } from "./random";
@@ -70,3 +75,17 @@ export const fakeComment = <T extends Partial<Insertable<Comments>>>(
         content: random.paragraph(),
         ...overrides,
     }) satisfies Insertable<Comments>;
+
+/**
+ * Generates a fake project category with some default test data.
+ * @param overrides Any properties that should be different from default fake data.
+ */
+export const fakeProjectCategory = <
+    T extends Partial<Insertable<ProjectCategories>>,
+>(
+    overrides: T = {} as T
+) =>
+    ({
+        name: random.string().trim().toLowerCase(),
+        ...overrides,
+    }) satisfies Insertable<ProjectCategories>;

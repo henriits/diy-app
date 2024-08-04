@@ -86,6 +86,6 @@ export const fakeProjectCategory = <
     overrides: T = {} as T
 ) =>
     ({
-        name: random.string().trim().toLowerCase(),
+        name: random.word().trim().toLowerCase(),
         ...overrides,
     }) satisfies Insertable<ProjectCategories>;

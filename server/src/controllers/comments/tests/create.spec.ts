@@ -22,15 +22,12 @@ const [Project] = await insertAll(
 );
 
 it("allows creating a comment", async () => {
-    // ARRANGE (Given)
     const comment = fakeComment({ projectId: Project.id });
     console.log(comment);
 
-    // ACT (When)
     const { create } = createCaller(authContext({ db }, userOther));
     const commentReturned = await create(comment);
 
-    // ASSERT (Then)
     const [commentSaved] = await selectAll(db, "comments", (cb) =>
         cb("id", "=", commentReturned.id)
     );
@@ -42,28 +39,22 @@ it("allows creating a comment", async () => {
         lastName: userOther.lastName,
     });
 
-    // an extra check that the password is not returned
     expect((commentReturned.author as any).password).toBeUndefined();
 });
 
 it("throws an error if the Project does not exist", async () => {
-    // ARRANGE (Given)
     const comment = fakeComment({ projectId: Project.id + 999999 });
 
-    // ACT (When) & ASSERT (Then)
     const { create } = createCaller(authContext({ db }));
     await expect(create(comment)).rejects.toThrow(/not found/i);
 });
 
 describe("permissions", () => {
-    // shared scenario setup
     const comment = fakeComment({ projectId: Project.id });
 
     it("allows Project author to create a comment", async () => {
-        // ARRANGE (Given)
         const { create } = createCaller(authContext({ db }, userProjectAuthor));
 
-        // ACT (When)
         await expect(create(comment)).resolves.toMatchObject({
             ...comment,
             userId: userProjectAuthor.id,
@@ -71,10 +62,8 @@ describe("permissions", () => {
     });
 
     it("allows other users to create a comment", async () => {
-        // ARRANGE (Given)
         const { create } = createCaller(authContext({ db }, userOther));
 
-        // ACT (When)
         await expect(create(comment)).resolves.toMatchObject({
             ...comment,
             userId: userOther.id,
@@ -82,7 +71,6 @@ describe("permissions", () => {
     });
 
     it("disallows non-logged in visitors to create a comment", async () => {
-        // ARRANGE (Given)
         const { create } = createCaller({
             db,
             req: {
@@ -91,7 +79,6 @@ describe("permissions", () => {
             } as any,
         });
 
-        // ACT (When)
         await expect(create(comment)).rejects.toThrow(
             /unauthenticated|unauthorized/i
         );

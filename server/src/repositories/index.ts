@@ -5,6 +5,7 @@ import { commentRepository } from "./commentsRepository";
 import { categoriesRepository } from "./categoriesRepository";
 import { projectCategoryAssignmentsRepository } from "./projectCategoryAssignmentsRepository";
 import { ratingsRepository } from "./ratingsRepository";
+import { imageRepository } from "./imagesRepository";
 
 export type RepositoryFactory = <T>(db: Database) => T;
 
@@ -15,6 +16,7 @@ const repositories = {
     categoriesRepository,
     projectCategoryAssignmentsRepository,
     ratingsRepository,
+    imageRepository,
 };
 
 export type RepositoriesFactories = typeof repositories;

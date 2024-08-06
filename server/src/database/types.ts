@@ -26,6 +26,14 @@ export interface ProjectCategoryAssignments {
   projectId: number;
 }
 
+export interface ProjectImages {
+  createdAt: Generated<Timestamp>;
+  id: Generated<number>;
+  imageUrl: string;
+  projectId: number;
+  userId: number;
+}
+
 export interface Projects {
   createdAt: Generated<Timestamp>;
   description: string | null;
@@ -60,6 +68,7 @@ export interface DB {
   comments: Comments;
   projectCategories: ProjectCategories;
   projectCategoryAssignments: ProjectCategoryAssignments;
+  projectImages: ProjectImages;
   projects: Projects;
   ratings: Ratings;
   users: Users;

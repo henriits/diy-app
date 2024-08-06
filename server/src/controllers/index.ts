@@ -5,6 +5,7 @@ import comments from "./comments";
 import categories from "./categories";
 import categoryAssignment from "./categoryAssignment";
 import ratings from "./ratings";
+import projectImages from "./projectImages";
 
 export const appRouter = router({
     users,
@@ -13,4 +14,5 @@ export const appRouter = router({
     categories,
     categoryAssignment,
     ratings,
+    projectImages,
 });

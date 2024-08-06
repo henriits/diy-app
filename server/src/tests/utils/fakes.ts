@@ -4,6 +4,7 @@ import type {
     Comments,
     ProjectCategories,
     Ratings,
+    ProjectImages,
 } from "@server/database/types";
 import type { Insertable } from "kysely";
 import type { AuthUser } from "@server/entities/users";
@@ -105,3 +106,18 @@ export const fakeRating = <T extends Partial<Insertable<Ratings>>>(
         rating: random.integer({ min: 1, max: 5 }),
         ...overrides,
     }) satisfies Insertable<Ratings>;
+
+/**
+ * Generates a fake project images with some default test data.
+ * @param overrides Any properties that should be different from default fake data.
+ */
+
+export const fakeImage = <T extends Partial<Insertable<ProjectImages>>>(
+    overrides: T = {} as T
+) =>
+    ({
+        userId: randomId(),
+        projectId: randomId(),
+        imageUrl: "https://www.example.com",
+        ...overrides,
+    }) satisfies Insertable<ProjectImages>;

@@ -6,7 +6,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build:backend": "npm run build --prefix server",
         "build:frontend": "npm run build --prefix client",
-        "start:backend": "ts-node-dev --respawn --transpile-only server/src/index.ts",
+        "start:backend": "npm --prefix server run dev",
         "start:frontend": "npm --prefix client run dev",
         "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
     },

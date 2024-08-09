@@ -1,3 +1,4 @@
+import { todo } from "node:test";
 import { authContext } from "@server/tests/utils/context";
 import { fakeProject, fakeUser } from "@server/tests/utils/fakes";
 import { createTestDatabase } from "@server/tests/utils/database";
@@ -27,3 +28,5 @@ it("should throw an error if article does not exist", async () => {
     const nonExistId = project1.id + project2.id;
     await expect(get(nonExistId)).rejects.toThrowError(/not found/i);
 });
+
+todo("Find project by title or description");

@@ -27,6 +27,16 @@ export function categoriesRepository(db: Database) {
                 .returning(projectCategoryKeysPublic)
                 .executeTakeFirstOrThrow();
         },
+        /**
+         * Finds all project categories and returns them.
+         * @returns An array of all project categories.
+         */
+        async findAll(): Promise<ProjectCategoryPublic[]> {
+            return db
+                .selectFrom("projectCategories")
+                .select(projectCategoryKeysPublic)
+                .execute();
+        },
     };
 }
 

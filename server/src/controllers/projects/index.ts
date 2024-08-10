@@ -4,11 +4,13 @@ import findAll from "./findAll";
 import findById from "./findById";
 import update from "./update";
 import deleteProject from "./delete";
+import findByTitle from "./findByTitle";
 
 export default router({
     create,
     findAll,
     findById,
+    findByTitle,
     update,
     delete: deleteProject,
 });

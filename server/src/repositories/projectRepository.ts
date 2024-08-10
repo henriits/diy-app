@@ -55,6 +55,14 @@ export function projectRepository(db: Database) {
                 .limit(limit)
                 .execute();
         },
+        async findByTitle(title: string): Promise<ProjectPublic[]> {
+            return db
+                .selectFrom("projects")
+                .select(projectKeysPublic)
+                .where("title", "like", `%${title}%`)
+                .orderBy("id", "desc") // Optional ordering
+                .execute();
+        },
 
         async hasUserId(projectId: number, userId: number): Promise<boolean> {
             const project = await db

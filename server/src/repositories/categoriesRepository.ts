@@ -37,6 +37,18 @@ export function categoriesRepository(db: Database) {
                 .select(projectCategoryKeysPublic)
                 .execute();
         },
+        /**
+         * Finds categories by name and returns them.
+         * @returns An array of project categories.
+         */
+        async findByName(name: string): Promise<ProjectCategoryPublic[]> {
+            return db
+                .selectFrom("projectCategories")
+                .select(projectCategoryKeysPublic)
+                .where("name", "like", `%${name}%`)
+                .orderBy("id", "desc")
+                .execute();
+        },
     };
 }
 

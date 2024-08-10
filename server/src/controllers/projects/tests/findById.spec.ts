@@ -17,16 +17,16 @@ const [project1, project2] = await insertAll(db, "projects", [
     fakeProject({ userId: user2.id }),
 ]);
 
-const { get } = createCaller(authContext({ db }, user1));
+const { findById } = createCaller(authContext({ db }, user1));
 
 it("should return a project", async () => {
-    const projectResponse = await get(project1.id);
+    const projectResponse = await findById(project1.id);
     expect(projectResponse).toMatchObject(project1);
 });
 
 it("should throw an error if article does not exist", async () => {
     const nonExistId = project1.id + project2.id;
-    await expect(get(nonExistId)).rejects.toThrowError(/not found/i);
+    await expect(findById(nonExistId)).rejects.toThrowError(/not found/i);
 });
 
 todo("Find project by title or description");

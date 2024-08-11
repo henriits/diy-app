@@ -47,6 +47,10 @@ The frontend implementation and integration with the backend are forthcoming.
 ### Usage
 
 -   create **.env** with with data provided inside **.env.example**
+-   Install packages and run migrations
+
+    npm install
+    npm run migrate:latest
 
 To run both server and client simultaneously, use:
 

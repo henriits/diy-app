@@ -46,6 +46,8 @@ The frontend implementation and integration with the backend are forthcoming.
 
 ### Usage
 
+-   create **.env** with with data provided inside **.env.example**
+
 To run both server and client simultaneously, use:
 
     npm start

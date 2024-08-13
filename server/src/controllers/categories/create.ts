@@ -33,7 +33,7 @@ export default authenticatedProcedure
             } catch (error: unknown) {
                 assertError(error);
                 console.error("Error details:", error);
-                if (error.message.includes("unique_violation")) {
+                if (error.message.includes("project_categories_name_key")) {
                     throw new TRPCError({
                         code: "BAD_REQUEST",
                         message: "Category with this name already exists.",

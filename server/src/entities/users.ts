@@ -38,7 +38,6 @@ export const userKeysAll = Object.keys(
     userSchema.shape
 ) as (keyof Selectable<Users>)[];
 
-// Adjust public keys to include all fields except sensitive information
 export const userKeysPublic = [
     "id",
     "firstName",
@@ -54,7 +53,6 @@ export type UserPublic = Pick<
     (typeof userKeysPublic)[number]
 >;
 
-// Adjust authentication user schema
 export const authUserSchema = userSchema.pick({
     id: true,
     isAdmin: true,

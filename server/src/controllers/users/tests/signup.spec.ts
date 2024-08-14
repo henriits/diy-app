@@ -38,7 +38,7 @@ it("should require a username with at least 3 characters", async () => {
                 username: "bo",
             })
         )
-    ).rejects.toThrow(/username/i); // throws out some error complaining about "username"
+    ).rejects.toThrow(/username/i);
 });
 
 it("should require a username without special characters", async () => {
@@ -48,7 +48,7 @@ it("should require a username without special characters", async () => {
                 username: "#bo",
             })
         )
-    ).rejects.toThrow(/username/i); // throws out some error complaining about "username"
+    ).rejects.toThrow(/username/i);
 });
 
 it("should require a valid email", async () => {
@@ -58,7 +58,7 @@ it("should require a valid email", async () => {
                 email: "user-email-invalid",
             })
         )
-    ).rejects.toThrow(/email/i); // throws out some error complaining about "email"
+    ).rejects.toThrow(/email/i);
 });
 
 it("should require a password with at least 8 characters", async () => {
@@ -68,7 +68,7 @@ it("should require a password with at least 8 characters", async () => {
                 password: "pas.123",
             })
         )
-    ).rejects.toThrow(/password/i); // throws out some error complaining about "password"
+    ).rejects.toThrow(/password/i);
 });
 
 it("throws an error for invalid email", async () => {
@@ -89,7 +89,6 @@ it("stores lowercased username", async () => {
         username: user.username.toUpperCase(),
     });
 
-    // get user with original lowercase username
     const userSaved = await selectAll(db, "users", (eb) =>
         eb("username", "=", user.username)
     );

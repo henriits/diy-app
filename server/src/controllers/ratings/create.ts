@@ -1,4 +1,3 @@
-// controller/ratings/create.ts
 import { authenticatedProcedure } from "@server/trpc/authenticatedProcedure";
 import provideRepos from "@server/trpc/provideRepos";
 import { ratingsRepository } from "@server/repositories/ratingsRepository";

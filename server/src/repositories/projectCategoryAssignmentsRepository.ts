@@ -1,5 +1,3 @@
-// projectCategoryAssignmentsRepository.ts
-
 import type { Database, ProjectCategoryAssignments } from "@server/database";
 import {
     projectCategoryAssignmentKeysPublic,

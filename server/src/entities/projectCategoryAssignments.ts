@@ -1,5 +1,3 @@
-// entities/projectCategoryAssignments.ts
-
 import { z } from "zod";
 import type { Selectable } from "kysely";
 import type { ProjectCategoryAssignments } from "@server/database/types";

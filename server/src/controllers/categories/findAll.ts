@@ -1,4 +1,3 @@
-// src/controllers/categories/findAll.ts
 import { categoriesRepository } from "@server/repositories/categoriesRepository";
 import provideRepos from "@server/trpc/provideRepos";
 import { authenticatedProcedure } from "@server/trpc/authenticatedProcedure";

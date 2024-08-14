@@ -1,5 +1,3 @@
-// controller/categoryAssignments.ts
-
 import { projectCategoryAssignmentsRepository } from "@server/repositories/projectCategoryAssignmentsRepository";
 import provideRepos from "@server/trpc/provideRepos";
 import { authenticatedProcedure } from "@server/trpc/authenticatedProcedure";

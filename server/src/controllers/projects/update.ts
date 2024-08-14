@@ -1,5 +1,3 @@
-// @server/controllers/projects/update.ts
-
 import { z } from "zod";
 import { projectSchema } from "@server/entities/projects";
 import { authenticatedProcedure } from "@server/trpc/authenticatedProcedure";

@@ -1,5 +1,3 @@
-// https://github.com/henriits/monorepo-hands-on/blob/main/server/src/repositories/articleRepository.ts
-
 import type { Database, Projects } from "@server/database";
 import type { Insertable } from "kysely";
 import {

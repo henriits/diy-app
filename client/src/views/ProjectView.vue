@@ -22,30 +22,30 @@ onBeforeMount(async () => {
 })
 
 
-
-
-
-
-
 </script>
 
 <template>
-  <div v-if="project">
-    <FwbHeading tag="h1" class="mb-8 mt-10">
-      {{ project.title }}
-    </FwbHeading>
-
-    <Card>
-      {{ project.description }}
-      <br>
-      {{ project.instructions }}
-      <br>
-      {{ project.materials }}
-      <br>
-      {{ project.createdAt }}
-    </Card>
-
-
-
+  <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8">
+    <div class="items-center lg:flex">Please Login to view the project!</div>
   </div>
+  <div v-else>
+    <div v-if="project">
+      <FwbHeading tag="h1" class="mb-8 mt-10">
+        {{ project.title }}
+      </FwbHeading>
+
+      <Card>
+        {{ project.description }}
+        <br>
+        {{ project.instructions }}
+        <br>
+        {{ project.materials }}
+        <br>
+        {{ project.createdAt }}
+      </Card>
+
+    </div>
+  </div>
+
+
 </template>

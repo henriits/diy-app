@@ -29,7 +29,7 @@ export const createRatingSchema = ratingSchema.pick({
     projectId: true,
 });
 
-export type CreateProject = z.infer<typeof createRatingSchema>;
+export type CreateRating = z.infer<typeof createRatingSchema>;
 export const updateRatingSchema = createRatingSchema.partial();
 
 // Type for updating a rating

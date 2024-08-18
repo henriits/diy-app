@@ -30,7 +30,8 @@ const [submitLogin, errorMessage] = useErrorMessage(async () => {
 <template>
   <PageForm heading="Log in to your account" formLabel="Login" @submit="submitLogin">
     <template #default>
-      <FwbInput label="Username" type="text" autocomplete="username" v-model="userForm.username" :required="true" />
+      <FwbInput label="Username" id="username" type="text" autocomplete="username" v-model="userForm.username"
+        :required="true" />
 
       <FwbInput label="Password" id="password" name="password" type="password" autocomplete="current-password"
         v-model="userForm.password" :required="true" />

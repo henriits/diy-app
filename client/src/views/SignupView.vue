@@ -53,7 +53,8 @@ async function submitSignup() {
       <FwbInput data-testid="lastName" label="Last Name" type="text" v-model="userForm.lastName" :required="true" />
 
       <FwbInput label="Email" type="email" autocomplete="username" v-model="userForm.email" :required="true" />
-      <FwbInput label="Username" type="text" autocomplete="username" v-model="userForm.username" :required="true" />
+      <FwbInput label="Username" id="username" type="text" autocomplete="username" v-model="userForm.username"
+        :required="true" />
 
       <FwbInput label="Password" id="password" name="password" type="password" autocomplete="current-password"
         v-model="userForm.password" :required="true" />

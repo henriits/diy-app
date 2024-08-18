@@ -37,11 +37,9 @@ const schema = z
             connectionString: z.string().url(),
         }),
 
-        testDatabase: z
-            .object({
-                connectionString: z.string().url(),
-            })
-            .optional(),
+        testDatabase: z.object({
+            connectionString: z.string().url(),
+        }),
     })
     .readonly();
 
@@ -60,9 +58,9 @@ const config = schema.parse({
         connectionString: env.DATABASE_URL,
     },
 
-    testDatabase: process.env.TEST_DATABASE_URL
-        ? { connectionString: process.env.TEST_DATABASE_URL }
-        : undefined, // Only include this if TEST_DATABASE_URL is provided
+    testDatabase: {
+        connectionString: env.TEST_DATABASE_URL,
+    },
 });
 
 export default config;

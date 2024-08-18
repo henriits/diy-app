@@ -12,8 +12,9 @@ jobs:
 
             # variables for our back-end tests, see server/src/config.ts
             DATABASE_URL: postgres://testuser:testpw@localhost:5432/testdb
+            TEST_DATABASE_URL: postgres://testuser:testpw@localhost:5433/testdbtest # Use a different port for the test database
         services:
-            # spin up a database for tests
+            # spin up a main database for the application
             postgres:
                 image: postgres:16.1-alpine
                 env:
@@ -23,6 +24,16 @@ jobs:
                     POSTGRES_DB: testdb
                 ports:
                     - 5432:5432
+
+            testdb:
+                image: postgres:16.1-alpine
+                env:
+                    POSTGRES_USER: testuser
+                    POSTGRES_PASSWORD: testpw
+                    POSTGRES_DB: testdbtest
+                ports:
+                    - 5433:5432
+
         steps:
             - name: Check out repository
               uses: actions/checkout@v4

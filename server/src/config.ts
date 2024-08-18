@@ -60,9 +60,9 @@ const config = schema.parse({
         connectionString: env.DATABASE_URL,
     },
 
-    testDatabase: {
-        connectionString: env.TEST_DATABASE_URL,
-    },
+    testDatabase: process.env.TEST_DATABASE_URL
+        ? { connectionString: process.env.TEST_DATABASE_URL }
+        : undefined, // Only include this if TEST_DATABASE_URL is provided
 });
 
 export default config;

@@ -12,6 +12,7 @@ jobs:
 
             # variables for our back-end tests, see server/src/config.ts
             DATABASE_URL: postgres://testuser:testpw@localhost:5432/testdb
+            TEST_DATABASE_URL: postgres://testuser:testpw@localhost:5432/testdbtest
         services:
             # spin up a database for tests
             postgres:

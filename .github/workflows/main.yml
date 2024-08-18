@@ -43,7 +43,7 @@ jobs:
               run: npm run typecheck -w=client
 
             - name: Lint code for server
-              run: npm run lint -w=server
+              run: npm run lint --fix -w=server
 
             - name: Lint code for client
               run: npm run lint -w=client

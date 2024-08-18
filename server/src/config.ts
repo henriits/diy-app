@@ -37,9 +37,11 @@ const schema = z
             connectionString: z.string().url(),
         }),
 
-        testDatabase: z.object({
-            connectionString: z.string().url(),
-        }),
+        testDatabase: z
+            .object({
+                connectionString: z.string().url(),
+            })
+            .optional(),
     })
     .readonly();
 

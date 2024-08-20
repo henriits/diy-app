@@ -52,11 +52,20 @@ export function projectRepository(db: Database) {
             await db.deleteFrom("projects").where("id", "=", id).execute();
         },
 
-        async findAll({ offset, limit }: Pagination): Promise<ProjectPublic[]> {
+        async findAll({
+            offset,
+            limit,
+        }: Pagination): Promise<(ProjectPublic & { username: string })[]> {
             return db
                 .selectFrom("projects")
-                .select(projectKeysPublic)
-                .orderBy("id", "desc") // Adjust the ordering field as necessary
+                .innerJoin("users", "projects.userId", "users.id")
+                .select([
+                    ...projectKeysPublic.map(
+                        (key) => `projects.${key}` as keyof Projects
+                    ),
+                    "users.username",
+                ])
+                .orderBy("projects.id", "desc")
                 .offset(offset)
                 .limit(limit)
                 .execute();
@@ -70,11 +79,11 @@ export function projectRepository(db: Database) {
                 .select([
                     ...projectKeysPublic.map(
                         (key) => `projects.${key}` as keyof Projects
-                    ), // Prefix project fields with "projects."
-                    "users.username", // Add the username field from users table
+                    ),
+                    "users.username",
                 ])
                 .where("projects.title", "like", `%${title}%`)
-                .orderBy("projects.id", "desc") // Specify that the ordering is by the project ID
+                .orderBy("projects.id", "desc")
                 .execute();
         },
 

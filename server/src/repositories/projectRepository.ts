@@ -20,11 +20,19 @@ export function projectRepository(db: Database) {
                 .executeTakeFirstOrThrow();
         },
 
-        async findById(id: number): Promise<ProjectPublic | undefined> {
+        async findById(
+            id: number
+        ): Promise<(ProjectPublic & { username: string }) | undefined> {
             return db
                 .selectFrom("projects")
-                .select(projectKeysPublic)
-                .where("id", "=", id)
+                .innerJoin("users", "projects.userId", "users.id")
+                .select([
+                    ...projectKeysPublic.map(
+                        (key) => `projects.${key}` as keyof Projects
+                    ),
+                    "users.username",
+                ])
+                .where("projects.id", "=", id)
                 .executeTakeFirst();
         },
 
@@ -53,12 +61,20 @@ export function projectRepository(db: Database) {
                 .limit(limit)
                 .execute();
         },
-        async findByTitle(title: string): Promise<ProjectPublic[]> {
+        async findByTitle(
+            title: string
+        ): Promise<(ProjectPublic & { username: string })[]> {
             return db
                 .selectFrom("projects")
-                .select(projectKeysPublic)
-                .where("title", "like", `%${title}%`)
-                .orderBy("id", "desc") // Optional ordering
+                .innerJoin("users", "projects.userId", "users.id")
+                .select([
+                    ...projectKeysPublic.map(
+                        (key) => `projects.${key}` as keyof Projects
+                    ), // Prefix project fields with "projects."
+                    "users.username", // Add the username field from users table
+                ])
+                .where("projects.title", "like", `%${title}%`)
+                .orderBy("projects.id", "desc") // Specify that the ordering is by the project ID
                 .execute();
         },
 

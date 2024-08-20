@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { trpc } from '@/trpc'
-import type { ProjectPublic, CommentPublic } from '@server/shared/types'
+import type { ProjectPublic } from '@server/shared/types'
 import { FwbButton, FwbHeading, FwbInput } from 'flowbite-vue'
 import { onBeforeMount, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -8,19 +8,17 @@ import Card from '@/components/Card.vue'
 import { isLoggedIn } from '@/stores/user'
 
 const route = useRoute()
-const project = ref<ProjectPublic>()
+const project = ref<ProjectPublic & { username: string }>() // Update to include username
 
 const projectId = Number(route.params.id)
 
 onBeforeMount(async () => {
-  // Promise.all allows to run multiple promises in parallel.
   const [projectFound] = await Promise.all([
     trpc.projects.findById.query(projectId),
   ])
 
   project.value = projectFound
 })
-
 
 </script>
 
@@ -35,17 +33,13 @@ onBeforeMount(async () => {
       </FwbHeading>
 
       <Card>
-        {{ project.description }}
-        <br>
-        {{ project.instructions }}
-        <br>
-        {{ project.materials }}
-        <br>
-        {{ project.createdAt }}
+        <p>Author: {{ project.username }}</p> <!-- Display the author's username -->
+        <p>{{ project.description }}</p>
+        <p>{{ project.instructions }}</p>
+        <p>{{ project.materials }}</p>
+        <p>{{ project.createdAt }}</p>
       </Card>
 
     </div>
   </div>
-
-
 </template>

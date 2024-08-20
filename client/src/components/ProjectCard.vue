@@ -4,7 +4,7 @@ import type { Selectable } from 'kysely'
 import type { Projects } from '@server/shared/types'
 
 interface Props {
-  project: Selectable<Projects> & { username: string } // Ensure username is included
+  project: Selectable<Projects>
 }
 
 const props = defineProps<Props>()
@@ -22,7 +22,6 @@ const truncatedContent = computed(() =>
       </RouterLink>
     </h4>
     <p class="mt-2 text-gray-600 dark:text-gray-300">{{ truncatedContent }}</p>
-    <p class="mt-2 text-gray-600 dark:text-gray-300">Author: {{ props.project.username }}</p>
-    <!-- Display the author's username -->
+
   </div>
 </template>

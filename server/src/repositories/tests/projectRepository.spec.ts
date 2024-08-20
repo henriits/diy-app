@@ -185,6 +185,7 @@ describe("getById", () => {
             userId: project.userId,
             createdAt: project.createdAt,
             updatedAt: project.updatedAt,
+            username: user.username,
         });
     });
 

@@ -1,35 +1,10 @@
 {
     "name": "diy-app",
     "version": "1.0.0",
-    "main": "index.ts",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build:backend": "npm run build --prefix server",
-        "build:frontend": "npm run build --prefix client",
-        "start:backend": "npm --prefix server run dev",
-        "start:frontend": "npm --prefix client run dev",
-        "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
     "description": "",
+    "private": true,
     "workspaces": [
-        "server",
-        "client"
-    ],
-    "devDependencies": {
-        "@types/dotenv": "^8.2.0",
-        "@types/express": "^4.17.21",
-        "@types/node": "^22.0.0",
-        "@types/pg": "^8.11.6",
-        "typescript": "^5.5.4",
-        "ts-node-dev": "^2.0.0",
-        "concurrently": "^7.6.0"
-    },
-    "dependencies": {
-        "dotenv": "^16.4.5",
-        "express": "^4.18.2",
-        "pg": "^8.11.1"
-    }
+        "client",
+        "server"
+    ]
 }

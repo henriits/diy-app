@@ -22,15 +22,25 @@ const randomId = () =>
  */
 export const fakeUser = <T extends Partial<Insertable<Users>>>(
     overrides: T = {} as T
-) =>
-    ({
+) => {
+    // Ensure the generated username is at least 3 characters long
+    const generateValidUsername = () => {
+        const baseUsername = random.last().trim().toLowerCase();
+        // Ensure the username is at least 3 characters long and only contains valid characters
+        return baseUsername.length >= 3
+            ? baseUsername.replace(/[^a-zA-Z0-9_.]/g, "")
+            : "user";
+    };
+
+    return {
         firstName: random.first().trim().toLowerCase(),
         lastName: random.last().trim().toLowerCase(),
         email: random.email().trim().toLowerCase(),
         password: "Password.123!",
-        username: random.last().trim().toLowerCase(),
+        username: generateValidUsername(),
         ...overrides,
-    }) satisfies Insertable<Users>;
+    } satisfies Insertable<Users>;
+};
 
 export const fakeAuthUser = <T extends Partial<AuthUser>>(
     overrides: T = {} as T

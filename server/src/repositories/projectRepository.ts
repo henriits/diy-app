@@ -20,11 +20,19 @@ export function projectRepository(db: Database) {
                 .executeTakeFirstOrThrow();
         },
 
-        async findById(id: number): Promise<ProjectPublic | undefined> {
+        async findById(
+            id: number
+        ): Promise<(ProjectPublic & { username: string }) | undefined> {
             return db
                 .selectFrom("projects")
-                .select(projectKeysPublic)
-                .where("id", "=", id)
+                .innerJoin("users", "projects.userId", "users.id")
+                .select([
+                    ...projectKeysPublic.map(
+                        (key) => `projects.${key}` as keyof Projects
+                    ),
+                    "users.username",
+                ])
+                .where("projects.id", "=", id)
                 .executeTakeFirst();
         },
 
@@ -44,21 +52,38 @@ export function projectRepository(db: Database) {
             await db.deleteFrom("projects").where("id", "=", id).execute();
         },
 
-        async findAll({ offset, limit }: Pagination): Promise<ProjectPublic[]> {
+        async findAll({
+            offset,
+            limit,
+        }: Pagination): Promise<(ProjectPublic & { username: string })[]> {
             return db
                 .selectFrom("projects")
-                .select(projectKeysPublic)
-                .orderBy("id", "desc") // Adjust the ordering field as necessary
+                .innerJoin("users", "projects.userId", "users.id")
+                .select([
+                    ...projectKeysPublic.map(
+                        (key) => `projects.${key}` as keyof Projects
+                    ),
+                    "users.username",
+                ])
+                .orderBy("projects.id", "desc")
                 .offset(offset)
                 .limit(limit)
                 .execute();
         },
-        async findByTitle(title: string): Promise<ProjectPublic[]> {
+        async findByTitle(
+            title: string
+        ): Promise<(ProjectPublic & { username: string })[]> {
             return db
                 .selectFrom("projects")
-                .select(projectKeysPublic)
-                .where("title", "like", `%${title}%`)
-                .orderBy("id", "desc") // Optional ordering
+                .innerJoin("users", "projects.userId", "users.id")
+                .select([
+                    ...projectKeysPublic.map(
+                        (key) => `projects.${key}` as keyof Projects
+                    ),
+                    "users.username",
+                ])
+                .where("projects.title", "like", `%${title}%`)
+                .orderBy("projects.id", "desc")
                 .execute();
         },
 

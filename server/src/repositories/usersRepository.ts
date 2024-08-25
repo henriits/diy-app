@@ -26,6 +26,13 @@ export function usersRepository(db: Database) {
                 .where("username", "=", username)
                 .executeTakeFirst();
         },
+        async findById(id: number): Promise<UserPublic | undefined> {
+            return db
+                .selectFrom("users")
+                .select(userKeysAll)
+                .where("id", "=", id)
+                .executeTakeFirst();
+        },
     };
 }
 

@@ -16,3 +16,5 @@ export const appRouter = router({
     ratings,
     projectImages,
 });
+
+export type AppRouter = typeof appRouter;

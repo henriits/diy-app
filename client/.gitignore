@@ -27,7 +27,8 @@ coverage
 *.sln
 *.sw?
 
-*.tsbuildinfo
-
 test-results/
 playwright-report/
+
+
+.env

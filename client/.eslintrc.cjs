@@ -9,17 +9,36 @@ module.exports = {
     '@vue/eslint-config-typescript',
     '@vue/eslint-config-prettier/skip-formatting'
   ],
-  overrides: [
-    {
-      files: [
-        'e2e/**/*.{test,spec}.{js,ts,jsx,tsx}'
-      ],
-      'extends': [
-        'plugin:playwright/recommended'
-      ]
-    }
-  ],
   parserOptions: {
-    ecmaVersion: 'latest'
-  }
+    ecmaVersion: 'latest',
+    tsconfigRootDir: __dirname,
+  },
+  rules: {
+    'vue/multi-word-component-names': 'off',
+    'import/no-relative-parent-imports': 'off',
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            // using gitignore syntax
+            group: [
+              'app',
+              'config',
+              'database',
+              'entities',
+              'modules',
+              'repositories',
+              'trpc',
+              'utils',
+            ].flatMap(path => [
+              `@server/${path}`,
+              `@mono/server/src/${path}`,
+            ]),
+            message: 'Please only import from @server/shared or @mono/server/src/shared.',
+          },
+        ],
+      },
+    ]
+  },
 }

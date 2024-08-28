@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+    postgres:
+        image: postgres:16.1-alpine
+        environment:
+            POSTGRES_USER: diyuser
+            POSTGRES_PASSWORD: diypw
+            POSTGRES_DB: diydb
+        ports:
+            - "5432"
+
+    testdb:
+        image: postgres:16.1-alpine
+        environment:
+            POSTGRES_USER: testdiyuser
+            POSTGRES_PASSWORD: testdiypw
+            POSTGRES_DB: testdiydbtest
+        ports:
+            - "5433"
+
+    server:
+        build:
+            context: .
+            dockerfile: ./server/Dockerfile
+        environment:
+            DATABASE_URL: postgres://diyuser:diypw@postgres:5432/diydb
+            TEST_DATABASE_URL: postgres://testdiyuser:testdiypw@testdb:5432/testdiydbtest
+        depends_on:
+            - postgres
+            - testdb
+        ports:
+            - "3000"
+
+    # start up a client (and proxy) server
+    client:
+        build:
+            context: .
+            dockerfile: ./client/Dockerfile
+            args:
+                VITE_API_ORIGIN: http://localhost:3001
+                VITE_API_PATH: /api/v1/trpc
+        environment:
+            API_PROXY_PASS: http://server:3000
+        ports:
+            - "3001:80"
+        depends_on:
+            - server
+volumes:
+    diy-db:

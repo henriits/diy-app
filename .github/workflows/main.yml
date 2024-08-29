@@ -120,6 +120,9 @@ jobs:
         env:
             CLIENT_IMAGE_TAG: client-${{ github.sha }}
             SERVER_IMAGE_TAG: server-${{ github.sha }}
+        permissions:
+            id-token: write
+            contents: read
         steps:
             - name: Check out repository
               uses: actions/checkout@v4

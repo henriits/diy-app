@@ -1,3 +1,6 @@
 node_modules
 /local
 .env
+
+containers.json
+public-endpoint.json

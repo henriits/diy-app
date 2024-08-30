@@ -198,6 +198,7 @@ jobs:
                       "ports": {
                         "3000": "HTTP"
                       },
+                    
                       "environment": {
                         "NODE_ENV": "production",
                         "PORT": "3000",

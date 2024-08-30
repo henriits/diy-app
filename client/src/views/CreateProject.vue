@@ -10,7 +10,7 @@ const router = useRouter()
 
 const projectForm = ref({
   title: '',
-  descriptions: '',
+  description: '',
   instructions: '',
   materials: '',
 })
@@ -36,7 +36,7 @@ const [createProject, errorMessage] = useErrorMessage(async () => {
       </div>
 
       <div class="mt-6">
-        <FwbTextarea aria-label="Project description" v-model="projectForm.descriptions" :rows="4"
+        <FwbTextarea aria-label="Project description" v-model="projectForm.description" :rows="4"
           label="Project description" placeholder="Describe your Project here..." />
       </div>
       <div class="mt-6">

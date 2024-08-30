@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { FwbNavbarLink } from 'flowbite-vue'
 import StackedLayout from './StackedLayout.vue'
-import { isLoggedIn, logout } from '@/stores/user'
+import { isLoggedIn, logout, username } from '@/stores/user'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -27,7 +27,23 @@ function logoutUser() {
 <template>
   <StackedLayout :links="links">
     <template #menu>
-      <FwbNavbarLink v-if="isLoggedIn" @click.prevent="logoutUser" link="#">Logout</FwbNavbarLink>
+      <div class="menu-container">
+        <FwbNavbarLink v-if="isLoggedIn" @click.prevent="logoutUser" link="#">Logout</FwbNavbarLink>
+        <span class="username">as {{ username }}</span>
+      </div>
     </template>
   </StackedLayout>
 </template>
+
+<style scoped>
+.menu-container {
+  display: flex;
+  align-items: center;
+  /* Align items vertically in the center */
+}
+
+.menu-container>*:not(:last-child) {
+  margin-right: 5px;
+
+}
+</style>

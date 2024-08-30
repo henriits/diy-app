@@ -46,7 +46,7 @@ onMounted(fetchProjects)
         </div>
       </div>
     </div>
-    <div class="mt-12">
+    <div class="mt-12 text-center">
       <div>
         <p v-if="isLoggedIn">Logged in as: {{ username }}</p>
         <!-- Additional content -->

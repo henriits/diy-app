@@ -41,7 +41,10 @@ const [createProject, errorMessage] = useErrorMessage(async () => {
       </div>
       <div class="mt-6">
         <FwbTextarea aria-label="Project Instructions" v-model="projectForm.instructions" :rows="10"
-          label="Project instructions" placeholder="Write instructions for Project here..." />
+          label="Project instructions" placeholder="Write instructions for Project here...
+           NB! Add numbers before each instruction.
+           Start by writing 1. Followed by text , then 2. With another instruction
+           This will separate instructions on new line" />
       </div>
       <div class="mt-6">
         <FwbTextarea aria-label="Project materials" v-model="projectForm.materials" :rows="1" label="Project materials"

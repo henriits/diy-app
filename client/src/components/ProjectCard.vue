@@ -22,7 +22,7 @@ const formattedDate = computed(() =>
   <div class="flex flex-col sm:flex-row items-center p-6 bg-white shadow-lg rounded-lg dark:bg-gray-700">
     <!-- Image Section -->
     <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 w-52 h-52 overflow-hidden">
-      <img :src="project.imageUrl || 'https://via.placeholder.com/200x200'" alt="Project Image"
+      <img src="https://via.placeholder.com/200x200" alt="Project Image"
         class="w-full h-full object-cover rounded-lg shadow-md" />
     </div>
     <!-- Text Content -->

@@ -1,6 +1,7 @@
 import { authenticatedProcedure } from "@server/trpc/authenticatedProcedure";
 import provideRepos from "@server/trpc/provideRepos";
 import { ratingsRepository } from "@server/repositories/ratingsRepository";
+import logger from "@server/utils/logger";
 import { createRatingSchema } from "../../entities/ratings";
 
 export default authenticatedProcedure
@@ -17,6 +18,8 @@ export default authenticatedProcedure
 
         const ratingCreated =
             await repos.ratingsRepository.create(ratingDataWithUser);
-
+        logger.info(
+            `Rating created: (Rating: ${rating},  Project id : ${projectId})`
+        );
         return ratingCreated;
     });

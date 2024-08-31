@@ -6,6 +6,7 @@ import provideRepos from "@server/trpc/provideRepos";
 import { usersRepository } from "@server/repositories/usersRepository";
 import { assertError } from "@server/utils/errors";
 import { userSchema } from "@server/entities/users";
+import logger from "@server/utils/logger";
 
 export default publicProcedure
     .use(
@@ -54,7 +55,7 @@ export default publicProcedure
 
                 throw error;
             });
-
+        logger.info(`New user created: ${user.username}`);
         return {
             id: userCreated.id,
         };

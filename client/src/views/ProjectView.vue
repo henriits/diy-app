@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { trpc } from '@/trpc'
 import type { ProjectPublic } from '@server/shared/types'
-import { FwbHeading } from 'flowbite-vue'
+import { FwbHeading, FwbButton } from 'flowbite-vue'
 import { onBeforeMount, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import Card from '@/components/Card.vue'
-import { isLoggedIn } from '@/stores/user'
+import { isLoggedIn, authUserId } from '@/stores/user'
 import { formatInstructions } from '@/utils/formatInstructions'
 
 const route = useRoute()
+const router = useRouter()
 const project = ref<ProjectPublic & { username: string } | undefined>(undefined)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
@@ -23,6 +24,22 @@ onBeforeMount(async () => {
     isLoading.value = false
   }
 })
+
+const goToEditPage = () => {
+  router.push({ name: 'EditProject', params: { id: route.params.id } })
+}
+
+const deleteProject = async () => {
+  if (confirm('Are you sure you want to delete this project?')) {
+    try {
+      await trpc.projects.delete.mutate(Number(route.params.id))
+      alert('Project deleted successfully')
+      router.push({ name: 'Home' })
+    } catch (err) {
+      alert('Failed to delete project. Please try again later.')
+    }
+  }
+}
 </script>
 
 <template>
@@ -55,6 +72,10 @@ onBeforeMount(async () => {
             <p class="mt-4"><strong>Materials:</strong> {{ project.materials }}</p>
             <p class="mt-4"><strong>Created At:</strong> {{ new Date(project.createdAt).toLocaleDateString() }}</p>
           </Card>
+          <div v-if="project.userId === authUserId" class="mt-4 flex space-x-4">
+            <FwbButton @click="goToEditPage" size="lg">Edit Project</FwbButton>
+            <FwbButton @click="deleteProject" size="lg" color="red">Delete Project</FwbButton>
+          </div>
         </div>
       </div>
     </div>
@@ -74,6 +95,5 @@ img {
   height: auto;
   max-height: 1000px;
   object-fit: cover;
-
 }
 </style>

@@ -15,7 +15,7 @@ describe("create", () => {
         const [user] = await insertAll(db, "users", fakeUser());
         // Create a project with the valid user id
         const project = fakeProject({ userId: user.id });
-        console.log(project);
+
         // Insert the project and verify its creation
         const createdProject = await repository.create(project);
 

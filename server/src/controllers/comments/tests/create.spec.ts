@@ -23,7 +23,6 @@ const [Project] = await insertAll(
 
 it("allows creating a comment", async () => {
     const comment = fakeComment({ projectId: Project.id });
-    console.log(comment);
 
     const { create } = createCaller(authContext({ db }, userOther));
     const commentReturned = await create(comment);

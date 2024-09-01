@@ -21,6 +21,11 @@ const router = createRouter({
           name: 'EditProject',
           component: () => import('../views/EditProject.vue'),
         },
+        {
+          path: 'my-projects',
+          name: 'MyProjects',
+          component: () => import('../views/MyProjects.vue'),
+        },
       ],
     },
     {

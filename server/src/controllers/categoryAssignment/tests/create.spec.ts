@@ -25,10 +25,6 @@ it("should create a category assignment for a given project and category", async
         fakeProjectCategory(),
     ]);
 
-    // Print inserted data for verification
-    // console.log("Inserted project:", project1);
-    // console.log("Inserted category:", category1);
-
     // Prepare assignment
     const assignment = {
         projectId: project1.id,

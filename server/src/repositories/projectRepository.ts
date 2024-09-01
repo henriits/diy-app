@@ -70,6 +70,22 @@ export function projectRepository(db: Database) {
                 .limit(limit)
                 .execute();
         },
+        async findByUser(
+            userId: number
+        ): Promise<(ProjectPublic & { username: string })[]> {
+            return db
+                .selectFrom("projects")
+                .innerJoin("users", "projects.userId", "users.id")
+                .select([
+                    ...projectKeysPublic.map(
+                        (key) => `projects.${key}` as keyof Projects
+                    ),
+                    "users.username",
+                ])
+                .where("projects.userId", "=", userId)
+                .orderBy("projects.id", "desc")
+                .execute();
+        },
         async findByTitle(
             title: string
         ): Promise<(ProjectPublic & { username: string })[]> {

@@ -5,6 +5,7 @@ import findById from "./findById";
 import update from "./update";
 import deleteProject from "./delete";
 import findByTitle from "./findByTitle";
+import findByUser from "./findByUser";
 
 export default router({
     create,
@@ -13,4 +14,5 @@ export default router({
     findByTitle,
     update,
     delete: deleteProject,
+    findByUser,
 });

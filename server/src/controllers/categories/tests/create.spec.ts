@@ -13,7 +13,6 @@ const [user] = await insertAll(db, "users", [fakeUser()]);
 
 it("allows creating a project category", async () => {
     const category = fakeProjectCategory();
-    console.log(category);
 
     const { create } = createCaller(authContext({ db }, user));
     const categoryReturned = await create({ name: category.name });

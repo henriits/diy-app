@@ -8,16 +8,18 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const links = computed(() => [
-  { label: 'Projects', name: 'Home' },
+  { label: 'Home', name: 'Home' },
 
   ...(isLoggedIn.value
-    ? [{ label: 'Create a project', name: 'CreateProject' }]
+    ? [
+      { label: 'My Projects', name: 'MyProjects' },
+      { label: 'Create a project', name: 'CreateProject' }
+    ]
     : [
       { label: 'Login', name: 'Login' },
-      { label: 'Signup', name: 'Signup' },
+      { label: 'Signup', name: 'Signup' }
     ]),
 ])
-
 function logoutUser() {
   logout()
   router.push({ name: 'Login' })

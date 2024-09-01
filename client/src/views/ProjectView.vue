@@ -13,6 +13,8 @@ const router = useRouter()
 const project = ref<ProjectPublic & { username: string } | undefined>(undefined)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
+const successMessage = ref<string | null>(null)
+const showDeleteConfirm = ref(false)
 
 onBeforeMount(async () => {
   try {
@@ -29,17 +31,27 @@ const goToEditPage = () => {
   router.push({ name: 'EditProject', params: { id: route.params.id } })
 }
 
+const initiateDelete = () => {
+  showDeleteConfirm.value = true // Show the confirmation prompt
+}
+
+const cancelDelete = () => {
+  showDeleteConfirm.value = false // Hide the confirmation prompt
+}
+
 const deleteProject = async () => {
-  if (confirm('Are you sure you want to delete this project?')) {
-    try {
-      await trpc.projects.delete.mutate(Number(route.params.id))
-      alert('Project deleted successfully')
+
+  try {
+    await trpc.projects.delete.mutate(Number(route.params.id))
+    successMessage.value = 'Project deleted successfully'
+    setTimeout(() => {
       router.push({ name: 'Home' })
-    } catch (err) {
-      alert('Failed to delete project. Please try again later.')
-    }
+    }, 2000) // Delay to show the success message
+  } catch (err) {
+    error.value = 'Failed to delete project. Please try again later.'
   }
 }
+
 </script>
 
 <template>
@@ -49,6 +61,7 @@ const deleteProject = async () => {
   <div v-else>
     <div v-if="isLoading" class="text-center">Loading...</div>
     <div v-if="error" class="text-center text-red-500">{{ error }}</div>
+    <div v-if="successMessage" class="text-center text-green-500">{{ successMessage }}</div>
     <div v-if="project" class="p-6">
       <FwbHeading tag="h1" class="mb-8 mt-10 text-3xl font-bold">
         {{ project.title }}
@@ -74,13 +87,22 @@ const deleteProject = async () => {
           </Card>
           <div v-if="project.userId === authUserId" class="mt-4 flex space-x-4">
             <FwbButton @click="goToEditPage" size="lg">Edit Project</FwbButton>
-            <FwbButton @click="deleteProject" size="lg" color="red">Delete Project</FwbButton>
+            <FwbButton @click="initiateDelete" size="lg" color="red">Delete Project</FwbButton>
+          </div>
+          <!-- Confirmation Prompt -->
+          <div v-if="showDeleteConfirm" class="mt-4 p-4 border rounded-lg bg-white shadow-md">
+            <p class="text-red-600">Are you sure you want to delete this project?</p>
+            <div class="mt-2 flex space-x-4">
+              <FwbButton @click="deleteProject" size="lg" color="red">Yes, Delete</FwbButton>
+              <FwbButton @click="cancelDelete" size="lg">Cancel</FwbButton>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 /* Add any additional styling here */

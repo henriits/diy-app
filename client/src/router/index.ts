@@ -51,6 +51,7 @@ const router = createRouter({
           path: '',
           name: 'Home',
           component: HomeView,
+          props: (route) => ({ searchQuery: route.query.q || '' }),
         },
       ],
     },

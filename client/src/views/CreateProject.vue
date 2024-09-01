@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { trpc } from '@/trpc'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { FwbButton, FwbHeading, FwbInput, FwbTextarea } from 'flowbite-vue'
 import useErrorMessage from '@/composables/useErrorMessage'
 import AlertError from '@/components/AlertError.vue'
+import CreateCategory from './CreateCategory.vue'
 
 const router = useRouter()
 
@@ -22,6 +23,15 @@ const [createProject, errorMessage] = useErrorMessage(async () => {
     name: 'Projects',
     params: { id: project.id },
   })
+})
+
+const fetchCategories = async () => {
+  categories.value = await trpc.categories.findAll.query()
+}
+
+const categories = ref<{ id: number, name: string }[]>([])
+onMounted(() => {
+  fetchCategories()
 })
 </script>
 
@@ -47,12 +57,13 @@ const [createProject, errorMessage] = useErrorMessage(async () => {
            This will separate instructions on new line" />
       </div>
       <div class="mt-6">
-        <FwbTextarea aria-label="Project materials" v-model="projectForm.materials" :rows="1" label="Project materials"
+        <FwbTextarea aria-label="Project materials" v-model="projectForm.materials" :rows="3" label="Project materials"
           placeholder="Materials required for project" />
       </div>
     </div>
 
     <AlertError :message="errorMessage" />
+    <CreateCategory />
 
     <div class="mt-6 flex justify-end">
       <FwbButton size="lg" type="submit">Post Project</FwbButton>

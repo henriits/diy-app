@@ -13,7 +13,8 @@ const links = computed(() => [
   ...(isLoggedIn.value
     ? [
       { label: 'My Projects', name: 'MyProjects' },
-      { label: 'Create a project', name: 'CreateProject' }
+      { label: 'Create a project', name: 'CreateProject' },
+      { label: 'Category list', name: 'AllCategories' }
     ]
     : [
       { label: 'Login', name: 'Login' },

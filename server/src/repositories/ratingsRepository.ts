@@ -70,5 +70,29 @@ export function ratingsRepository(db: Database) {
 
             return result ?? undefined;
         },
+        /**
+         * Finds all ratings for a specific project.
+         * @param projectId - The id of the project to find ratings for.
+         * @returns The list of ratings for the project.
+         */
+        async findByProjectId(projectId: number): Promise<RatingPublic[]> {
+            return db
+                .selectFrom("ratings")
+                .selectAll()
+                .where("projectId", "=", projectId)
+                .orderBy("createdAt", "desc")
+                .execute();
+        },
+        /*         async findByUserAndProject(
+            userId: number,
+            projectId: number
+        ): Promise<RatingPublic | undefined> {
+            return db
+                .selectFrom("ratings")
+                .selectAll()
+                .where("userId", "=", userId)
+                .where("projectId", "=", projectId)
+                .executeTakeFirst();
+        }, */
     };
 }

@@ -1,59 +1,3 @@
-<script setup lang="ts">
-import { trpc } from '@/trpc'
-import type { ProjectPublic } from '@server/shared/types'
-import { FwbHeading, FwbButton } from 'flowbite-vue'
-import { onBeforeMount, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import Card from '@/components/Card.vue'
-import { isLoggedIn, authUserId } from '@/stores/user'
-import { formatInstructions } from '@/utils/formatInstructions'
-
-const route = useRoute()
-const router = useRouter()
-const project = ref<ProjectPublic & { username: string } | undefined>(undefined)
-const isLoading = ref(true)
-const error = ref<string | null>(null)
-const successMessage = ref<string | null>(null)
-const showDeleteConfirm = ref(false)
-
-onBeforeMount(async () => {
-  try {
-    const projectFound = await trpc.projects.findById.query(Number(route.params.id))
-    project.value = projectFound
-  } catch (err) {
-    error.value = 'Failed to load project details. Please try again later.'
-  } finally {
-    isLoading.value = false
-  }
-})
-
-const goToEditPage = () => {
-  router.push({ name: 'EditProject', params: { id: route.params.id } })
-}
-
-const initiateDelete = () => {
-  showDeleteConfirm.value = true // Show the confirmation prompt
-}
-
-const cancelDelete = () => {
-  showDeleteConfirm.value = false // Hide the confirmation prompt
-}
-
-const deleteProject = async () => {
-
-  try {
-    await trpc.projects.delete.mutate(Number(route.params.id))
-    successMessage.value = 'Project deleted successfully'
-    setTimeout(() => {
-      router.push({ name: 'Home' })
-    }, 2000) // Delay to show the success message
-  } catch (err) {
-    error.value = 'Failed to delete project. Please try again later.'
-  }
-}
-
-</script>
-
 <template>
   <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8">
     <div class="items-center lg:flex">Please Login to view the project!</div>
@@ -69,9 +13,6 @@ const deleteProject = async () => {
       <div class="flex flex-col md:flex-row items-start">
         <!-- Image Section -->
         <div class="flex-shrink-0 md:w-1/3 mb-6 md:mb-0">
-          <!-- <img :src="project.imageUrl" alt="Project Image" class="project-image" />
-             use this later to update image from database
-          -->
           <img src="https://via.placeholder.com/800x1000" alt="Project Image"
             class="w-full h-auto rounded-lg shadow-md" />
         </div>
@@ -84,6 +25,9 @@ const deleteProject = async () => {
                 v-html="formatInstructions(project.instructions)"></span></p>
             <p class="mt-4"><strong>Materials:</strong> {{ project.materials }}</p>
             <p class="mt-4"><strong>Created At:</strong> {{ new Date(project.createdAt).toLocaleDateString() }}</p>
+            <br>
+            <h2 v-if="totalRating" class="text-lg">Rating: {{ totalRating }} ★</h2>
+            <p v-else class="text-lg">No ratings yet.</p>
           </Card>
           <div v-if="project.userId === authUserId" class="mt-4 flex space-x-4">
             <FwbButton @click="goToEditPage" size="lg">Edit Project</FwbButton>
@@ -97,12 +41,86 @@ const deleteProject = async () => {
               <FwbButton @click="cancelDelete" size="lg">Cancel</FwbButton>
             </div>
           </div>
+          <!-- Create Rating Section -->
+          <!-- Only show the Rating component if the current user is not the project author -->
+          <div v-if="project.userId !== authUserId">
+            <Rating :projectId="project.id" @rating-submitted="fetchProjectAndRatings" />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<script setup lang="ts">
+import { trpc } from '@/trpc';
+import type { ProjectPublic, RatingPublic } from '@server/shared/types';
+import { FwbHeading, FwbButton } from 'flowbite-vue';
+import { computed, onBeforeMount, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import Card from '@/components/Card.vue';
+import { isLoggedIn, authUserId } from '@/stores/user';
+import { formatInstructions } from '@/utils/formatInstructions';
+import Rating from '@/components/Rating.vue';
+
+const route = useRoute();
+const router = useRouter();
+const project = ref<ProjectPublic & { username: string } | undefined>(undefined);
+const ratings = ref<RatingPublic[]>([]);
+const isLoading = ref(true);
+const error = ref<string | null>(null);
+const successMessage = ref<string | null>(null);
+const showDeleteConfirm = ref(false);
+
+const fetchProjectAndRatings = async () => {
+  try {
+    const projectId = Number(route.params.id);
+    const projectFound = await trpc.projects.findById.query(projectId);
+    project.value = projectFound;
+
+    // Fetch ratings for the project
+    ratings.value = await trpc.ratings.getByProjectId.query({ projectId });
+  } catch (err) {
+    error.value = 'Failed to load project details or ratings. Please try again later.';
+    console.error(err); // Log the actual error for debugging
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onBeforeMount(fetchProjectAndRatings);
+
+// Function to calculate average rating
+const totalRating = computed(() => {
+  if (ratings.value.length === 0) return null;
+  const totalRating = ratings.value.reduce((acc, rating) => acc + rating.rating, 0);
+  return (totalRating / ratings.value.length).toFixed(1);
+});
+
+const goToEditPage = () => {
+  router.push({ name: 'EditProject', params: { id: route.params.id } });
+};
+
+const initiateDelete = () => {
+  showDeleteConfirm.value = true; // Show the confirmation prompt
+};
+
+const cancelDelete = () => {
+  showDeleteConfirm.value = false; // Hide the confirmation prompt
+};
+
+const deleteProject = async () => {
+  try {
+    await trpc.projects.delete.mutate(Number(route.params.id));
+    successMessage.value = 'Project deleted successfully';
+    setTimeout(() => {
+      router.push({ name: 'Home' });
+    }, 2000); // Delay to show the success message
+  } catch (err) {
+    error.value = 'Failed to delete project. Please try again later.';
+  }
+};
+</script>
 
 <style scoped>
 /* Add any additional styling here */

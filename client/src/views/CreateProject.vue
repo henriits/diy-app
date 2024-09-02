@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import { FwbButton, FwbHeading, FwbInput, FwbTextarea } from 'flowbite-vue'
 import useErrorMessage from '@/composables/useErrorMessage'
 import AlertError from '@/components/AlertError.vue'
-import CreateCategory from './CreateCategory.vue'
+// import CreateCategory from './CreateCategory.vue'
 
 const router = useRouter()
 
@@ -63,7 +63,7 @@ onMounted(() => {
     </div>
 
     <AlertError :message="errorMessage" />
-    <CreateCategory />
+    <!-- <CreateCategory />  Will leave this feature for future implementation-->
 
     <div class="mt-6 flex justify-end">
       <FwbButton size="lg" type="submit">Post Project</FwbButton>

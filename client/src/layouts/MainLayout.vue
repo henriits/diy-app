@@ -14,7 +14,7 @@ const links = computed(() => [
     ? [
       { label: 'My Projects', name: 'MyProjects' },
       { label: 'Create a project', name: 'CreateProject' },
-      { label: 'Category list', name: 'AllCategories' }
+      // { label: 'Category list', name: 'AllCategories' }
     ]
     : [
       { label: 'Login', name: 'Login' },

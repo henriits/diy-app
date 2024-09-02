@@ -8,21 +8,18 @@ import { isLoggedIn, username } from '@/stores/user'
 import { FwbButton } from 'flowbite-vue'
 
 
-const allProjects = ref<Selectable<Projects>[]>([]) // Store all projects
+const allProjects = ref<Selectable<Projects>[]>([])
 const searchQuery = ref('')
 const currentPage = ref(1)
 const pageSize = ref(6) // Number of projects per page
-const totalProjects = ref(0) // Total number of filtered projects
+const totalProjects = ref(0)
 
-// Fetch all projects initially
+
 const fetchProjects = async () => {
-  // Fetch all projects
   allProjects.value = await trpc.projects.findAll.query()
-  // Initialize totalProjects with the length of allProjects
   updateTotalProjects()
 }
 
-// Function to update totalProjects based on filtered projects
 const updateTotalProjects = () => {
   let filtered = allProjects.value
 
@@ -32,11 +29,9 @@ const updateTotalProjects = () => {
     )
   }
 
-  // Update totalProjects to reflect the number of filtered projects
   totalProjects.value = filtered.length
 }
 
-// Computed property to filter projects based on search query and pagination
 const filteredProjects = computed(() => {
   let filtered = allProjects.value
 
@@ -65,7 +60,6 @@ watch([totalProjects, currentPage], () => {
   }
 })
 
-// Change page and fetch new data
 function changePage(pageNumber: number) {
   if (pageNumber < 1 || pageNumber > totalPages.value) {
     return
@@ -73,13 +67,12 @@ function changePage(pageNumber: number) {
   currentPage.value = pageNumber
 }
 
-// Total pages calculation
 const totalPages = computed(() => Math.ceil(totalProjects.value / pageSize.value))
 
 // Determine if there are more pages
 const hasMorePages = computed(() => currentPage.value < totalPages.value)
 
-// Fetch projects on component mount
+
 onMounted(fetchProjects)
 </script>
 
@@ -88,7 +81,7 @@ onMounted(fetchProjects)
     <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8">
       <div class="items-center lg:flex">
         <div class="lg:w-1/2">
-          <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100">DIY-Platform</h2>
+          <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100">DO IT YOURSELF!</h2>
           <p class="mt-4 text-gray-500 dark:text-gray-400 lg:max-w-md">
             A place where you can share your crafting ideas with others.
           </p>
@@ -117,7 +110,7 @@ onMounted(fetchProjects)
 
     <div class="mt-12 text-center">
       <div v-if="isLoggedIn">
-        <p>Logged in as: {{ username }}</p>
+        <p>Welcome, {{ username }}</p>
       </div>
 
       <!-- Search Bar -->

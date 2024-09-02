@@ -1,18 +1,3 @@
-<template>
-    <div v-if="isLoggedIn" class="rating-component">
-        <div class="rating-stars">
-            <span v-for="star in 5" :key="star" class="star" :class="{ filled: star <= rating }"
-                @click="setRating(star)">
-                ★
-            </span>
-        </div>
-        <button @click="submitRating" class="submit-button">Submit Rating</button>
-        <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
-        <div v-if="error" class="error-message">{{ error }}</div>
-    </div>
-    <div v-else class="not-logged-in">Please login to rate the project!</div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import { trpc } from '@/trpc';
@@ -52,6 +37,21 @@ const submitRating = async () => {
     }
 };
 </script>
+
+<template>
+    <div v-if="isLoggedIn" class="rating-component">
+        <div class="rating-stars">
+            <span v-for="star in 5" :key="star" class="star" :class="{ filled: star <= rating }"
+                @click="setRating(star)">
+                ★
+            </span>
+        </div>
+        <button @click="submitRating" class="submit-button">Submit Rating</button>
+        <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
+        <div v-if="error" class="error-message">{{ error }}</div>
+    </div>
+    <div v-else class="not-logged-in">Please login to rate the project!</div>
+</template>
 <style scoped>
 .rating-stars {
     display: flex;

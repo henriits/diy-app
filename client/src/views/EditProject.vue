@@ -26,31 +26,21 @@ const handleSubmit = async () => {
     error.value = null
 
     try {
-        console.log('Attempting to update project...') // Debug log
-
-        // Perform the update
         await trpc.projects.update.mutate({
             id: Number(route.params.id),
             data: projectForm.value,
         })
 
-        console.log('Update successful, attempting redirection...') // Debug log
-
-        // Check if project.value is defined before accessing its properties
         if (project.value) {
-            // Attempt to redirect to the project view
             await router.push({
                 name: 'Projects',
                 params: { id: project.value.id },
             })
-            console.log('Redirection successful') // Debug log
         } else {
-            console.error('Project data is undefined, cannot redirect.')
             error.value = 'Project data is not available. Please try again later.'
         }
 
     } catch (err) {
-        console.error("Failed to update project:", err)
         error.value = 'Failed to update project. Please try again later.'
     }
 }
@@ -75,17 +65,7 @@ onMounted(async () => {
     }
 })
 
-const deleteProject = async () => {
-    if (confirm('Are you sure you want to delete this project?')) {
-        try {
-            await trpc.projects.delete.mutate(Number(route.params.id))
-            alert('Project deleted successfully')
-            router.push({ name: 'Home' })
-        } catch (err) {
-            alert('Failed to delete project. Please try again later.')
-        }
-    }
-}
+
 </script>
 <template>
     <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8">
@@ -135,7 +115,6 @@ const deleteProject = async () => {
                             </div>
                             <div class="flex space-x-4">
                                 <FwbButton @click="handleSubmit" size="lg" color="blue">Save Changes</FwbButton>
-                                <FwbButton @click="deleteProject" size="lg" color="red">Delete Project</FwbButton>
                             </div>
                         </Card>
                     </div>

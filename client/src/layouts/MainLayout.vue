@@ -32,7 +32,8 @@ function logoutUser() {
     <template #menu>
       <div class="menu-container">
         <FwbNavbarLink v-if="isLoggedIn" @click.prevent="logoutUser" link="#">Logout</FwbNavbarLink>
-        <span class="username">as {{ username }}</span>
+        <span v-if="isLoggedIn" class="username">from {{ username }}</span>
+
       </div>
     </template>
   </StackedLayout>

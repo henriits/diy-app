@@ -61,7 +61,10 @@ onMounted(fetchProjects)
             </div>
         </div>
         <div v-if="isLoggedIn" class="mt-12 text-center">
-            <p>Logged in as: {{ username }}</p>
+            <div v-if="isLoggedIn">
+                <p>Welcome, {{ username }}</p>
+            </div>
+
             <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">My Projects</h3>
             <div v-if="projects.length" class="mt-6 grid gap-6 lg:grid-cols-3">
                 <ProjectCard v-for="project in projects" :key="project.id" :project="project" />

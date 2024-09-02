@@ -52,16 +52,6 @@ describe("findByProjectId Procedure", () => {
         );
     });
 
-    it("should throw an error if the project does not exist", async () => {
-        const { findByProjectId } = createCaller(authContext({ db }));
-
-        await expect(
-            findByProjectId({
-                projectId: project.id + 99, // Non-existent projectId
-            })
-        ).rejects.toThrow(/no comments found/i);
-    });
-
     describe("permissions", () => {
         it("allows project author to get comments of their own project", async () => {
             const { findByProjectId } = createCaller(

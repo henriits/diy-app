@@ -2,6 +2,7 @@ import { commentSchema, type CommentPublic } from "@server/entities/comments";
 import provideRepos from "@server/trpc/provideRepos";
 import { commentRepository } from "@server/repositories/commentsRepository";
 import { publicProcedure } from "@server/trpc";
+import { TRPCError } from "@trpc/server";
 
 export default publicProcedure
     .use(
@@ -11,17 +12,20 @@ export default publicProcedure
     )
     .input(
         commentSchema.pick({
-            projectId: true,
+            id: true,
         })
     )
     .query(
-        async ({
-            input: { projectId },
-            ctx: { repos },
-        }): Promise<CommentPublic[]> => {
-            const comments =
-                await repos.commentRepository.findByProjectId(projectId);
+        async ({ input: { id }, ctx: { repos } }): Promise<CommentPublic> => {
+            const comment = await repos.commentRepository.findById(id);
 
-            return comments;
+            if (!comment) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Comment not found.",
+                });
+            }
+
+            return comment;
         }
     );

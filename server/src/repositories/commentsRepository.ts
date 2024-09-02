@@ -9,6 +9,7 @@ import {
     type AliasedRawBuilder,
     type ExpressionBuilder,
     type Insertable,
+    type Updateable,
 } from "kysely";
 import { jsonObjectFrom } from "kysely/helpers/postgres";
 
@@ -32,6 +33,22 @@ export function commentRepository(db: Database) {
                 .returning(withAuthor)
                 .executeTakeFirstOrThrow();
         },
+        /**
+         * Finds a comment by its ID.
+         * @param id - The ID of the comment to find.
+         * @returns The comment with the specified ID.
+         */
+        async findById(id: number): Promise<CommentPublic | null> {
+            const comment = await db
+                .selectFrom("comments")
+                .select(commentKeysPublic)
+                .select(withAuthor)
+                .where("comments.id", "=", id)
+                .executeTakeFirst();
+
+            // Return null if no comment is found, otherwise return the comment
+            return comment ?? null;
+        },
 
         /**
          * Finds all comments associated with a specific project ID.
@@ -46,6 +63,38 @@ export function commentRepository(db: Database) {
                 .where("projectId", "=", projectId)
                 .orderBy("comments.id", "asc")
                 .execute();
+        },
+        /**
+         * Updates a comment by ID and returns the updated comment.
+         * @param id - The ID of the comment to update.
+         * @param data - The updated comment data.
+         * @returns The updated comment.
+         */
+        async updateById(
+            id: number,
+            data: Updateable<Comments>
+        ): Promise<CommentPublic> {
+            return db
+                .updateTable("comments")
+                .set(data)
+                .where("id", "=", id)
+                .returning(commentKeysPublic)
+                .returning(withAuthor)
+                .executeTakeFirstOrThrow();
+        },
+
+        /**
+         * Deletes a comment by ID.
+         * @param id - The ID of the comment to delete.
+         * @returns The ID of the deleted comment.
+         */
+        async deleteById(id: number): Promise<number> {
+            return db
+                .deleteFrom("comments")
+                .where("id", "=", id)
+                .returning("id")
+                .executeTakeFirstOrThrow()
+                .then((row) => row.id);
         },
     };
 }

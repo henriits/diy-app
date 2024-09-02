@@ -6,7 +6,18 @@
                     <strong class="username">{{ comment.author.username }}</strong>
                     <span class="comment-date">{{ new Date(comment.createdAt).toLocaleDateString() }}</span>
                 </div>
-                <p class="comment-content">{{ comment.content }}</p>
+                <div v-if="editingCommentId === comment.id">
+                    <textarea v-model="editedComment" rows="2" class="comment-edit-input"></textarea>
+                    <button @click="updateComment(comment.id)" class="update-button">Update</button>
+                    <button @click="cancelEdit" class="cancel-button">Cancel</button>
+                </div>
+                <div v-else>
+                    <p class="comment-content">{{ comment.content }}</p>
+                    <div v-if="isCommentAuthor(comment)" class="comment-actions">
+                        <button @click="startEdit(comment.id, comment.content)" class="edit-button">Edit</button>
+                        <button @click="confirmDelete(comment.id)" class="delete-button">Delete</button>
+                    </div>
+                </div>
             </div>
         </div>
         <textarea v-model="newComment" placeholder="Write your comment here..." rows="1"
@@ -18,23 +29,33 @@
     <div v-else class="not-logged-in">Please login to comment on the project!</div>
 </template>
 
+
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { trpc } from '@/trpc';
-import { isLoggedIn } from '@/stores/user';
+import { isLoggedIn, authUserId } from '@/stores/user'; // Correct imports
 import type { CommentPublic } from '@server/shared/types';
 
 const props = defineProps<{
     projectId: number;
 }>();
 
+// Retrieve the logged-in user's ID
+const userId = computed(() => authUserId.value);
+
 const newComment = ref<string>('');
+const editedComment = ref<string>('');
+const editingCommentId = ref<number | null>(null);
 const comments = ref<CommentPublic[]>([]);
 const successMessage = ref<string | null>(null);
 const error = ref<string | null>(null);
 
 const fetchComments = async () => {
     comments.value = await trpc.comments.findByProjectId.query({ projectId: props.projectId });
+};
+
+const isCommentAuthor = (comment: CommentPublic) => {
+    return comment.userId === userId.value; // Check if the logged-in user is the author
 };
 
 const submitComment = async () => {
@@ -70,8 +91,71 @@ const submitComment = async () => {
     }
 };
 
+const startEdit = (commentId: number, content: string) => {
+    editingCommentId.value = commentId;
+    editedComment.value = content;
+};
+
+const cancelEdit = () => {
+    editingCommentId.value = null;
+    editedComment.value = '';
+};
+
+const updateComment = async (commentId: number) => {
+    if (!editedComment.value.trim()) {
+        error.value = 'Comment cannot be empty.';
+
+        setTimeout(() => {
+            error.value = null;
+        }, 2000);
+
+        return;
+    }
+
+    try {
+        await trpc.comments.edit.mutate({
+            id: commentId,
+            content: editedComment.value,
+        });
+        successMessage.value = 'Comment updated successfully!';
+
+        setTimeout(() => {
+            successMessage.value = null;
+        }, 2000);
+
+        editingCommentId.value = null;
+        editedComment.value = ''; // Clear the input
+        await fetchComments(); // Refresh the comments list
+    } catch (err) {
+        error.value = 'Failed to update comment. Please try again later.';
+
+        setTimeout(() => {
+            error.value = null;
+        }, 2000);
+    }
+};
+
+const confirmDelete = async (commentId: number) => {
+    if (!confirm('Are you sure you want to delete this comment?')) return;
+
+    try {
+        await trpc.comments.deleteComment.mutate({ id: commentId });
+        successMessage.value = 'Comment deleted successfully!';
+        await fetchComments(); // Refresh the comments list
+    } catch (err) {
+        error.value = 'Failed to delete comment. Please try again later.';
+    } finally {
+        setTimeout(() => {
+            successMessage.value = null;
+            error.value = null;
+        }, 2000);
+    }
+};
+
 onMounted(fetchComments);
+
 </script>
+
 
 <style scoped>
 .username {

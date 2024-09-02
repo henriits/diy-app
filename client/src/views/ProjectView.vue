@@ -8,6 +8,7 @@ import Card from '@/components/Card.vue';
 import { isLoggedIn, authUserId } from '@/stores/user';
 import { formatInstructions } from '@/utils/formatInstructions';
 import Rating from '@/components/Rating.vue';
+import Comment from '@/components/Comments.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -115,6 +116,8 @@ const deleteProject = async () => {
           <div v-if="project.userId !== authUserId">
             <Rating :projectId="project.id" @rating-submitted="fetchProjectAndRatings" />
           </div>
+          <!-- Create Comments Section -->
+          <Comment :projectId="project.id" />
         </div>
       </div>
     </div>

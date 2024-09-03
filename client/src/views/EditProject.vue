@@ -5,7 +5,10 @@ import { FwbHeading, FwbButton } from 'flowbite-vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Card from '@/components/Card.vue'
+import UploadCareUploader from "@/components/UploadCareUploader.vue"
 import { isLoggedIn } from '@/stores/user'
+
+
 
 const route = useRoute()
 const router = useRouter()
@@ -64,9 +67,8 @@ onMounted(async () => {
         isLoading.value = false
     }
 })
-
-
 </script>
+
 <template>
     <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8">
         <div class="items-center lg:flex">Please Login to edit the project!</div>
@@ -83,7 +85,12 @@ onMounted(async () => {
                     <!-- Image Section -->
                     <div class="flex-shrink-0 md:w-1/3 mb-6 md:mb-0">
                         <img src="https://via.placeholder.com/800x1000" alt="Project Image"
-                            class="w-full h-auto rounded-lg shadow-md" />
+                            class="w-full h-auto rounded-lg shadow-md project-image" />
+                        <div>
+                            <!-- Use the UploadcareUploader component -->
+                            <UploadCareUploader />
+
+                        </div>
                     </div>
                     <!-- Content Section -->
                     <div class="flex-1 md:pl-6">
@@ -116,6 +123,8 @@ onMounted(async () => {
                             <div class="flex space-x-4">
                                 <FwbButton @click="handleSubmit" size="lg" color="blue">Save Changes</FwbButton>
                             </div>
+
+
                         </Card>
                     </div>
                 </div>
@@ -123,12 +132,8 @@ onMounted(async () => {
         </div>
     </div>
 </template>
-<style scoped>
-img {
-    max-width: 100%;
-    height: auto;
-}
 
+<style scoped>
 .project-image {
     width: 100%;
     max-width: 800px;

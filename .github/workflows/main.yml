@@ -12,6 +12,7 @@ jobs:
             # variables for our back-end tests, see server/src/config.ts
             DATABASE_URL: postgres://testuser:testpw@localhost:5432/testdb
             TEST_DATABASE_URL: postgres://testuser:testpw@localhost:5433/testdbtest # Use a different port for the test database
+            VITE_UPLOADCARE_PUB_KEY: ${{ secrets.VITE_UPLOADCARE_PUB_KEY }}
         services:
             postgres:
                 image: postgres:16.1-alpine
@@ -99,6 +100,7 @@ jobs:
         env:
             CLIENT_IMAGE_TAG: client-${{ github.sha }}
             SERVER_IMAGE_TAG: server-${{ github.sha }}
+            VITE_UPLOADCARE_PUB_KEY: ${{ secrets.VITE_UPLOADCARE_PUB_KEY }}
         permissions:
             id-token: write
             contents: read

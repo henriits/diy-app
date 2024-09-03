@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 import { FwbButton, FwbHeading, FwbInput, FwbTextarea } from 'flowbite-vue'
 import useErrorMessage from '@/composables/useErrorMessage'
 import AlertError from '@/components/AlertError.vue'
+import UploadCareUploader from "@/components/UploadCareUploader.vue"
 // import CreateCategory from './CreateCategory.vue'
 
 const router = useRouter()
@@ -60,6 +61,9 @@ onMounted(() => {
         <FwbTextarea aria-label="Project materials" v-model="projectForm.materials" :rows="3" label="Project materials"
           placeholder="Materials required for project" />
       </div>
+    </div>
+    <div> <!-- Use the UploadcareUploader component -->
+      <UploadCareUploader />
     </div>
 
     <AlertError :message="errorMessage" />

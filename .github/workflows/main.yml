@@ -173,7 +173,8 @@ jobs:
                         "80": "HTTP"
                       },
                       "environment": {
-                        "API_PROXY_PASS": "http://localhost:3000"
+                        "API_PROXY_PASS": "http://localhost:3000",
+                        "VITE_UPLOADCARE_PUB_KEY": "${{ secrets.VITE_UPLOADCARE_PUB_KEY }}",
                       }
                     },
                     "server": {

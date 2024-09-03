@@ -100,7 +100,6 @@ jobs:
         env:
             CLIENT_IMAGE_TAG: client-${{ github.sha }}
             SERVER_IMAGE_TAG: server-${{ github.sha }}
-            VITE_UPLOADCARE_PUB_KEY: ${{ secrets.VITE_UPLOADCARE_PUB_KEY }}
         permissions:
             id-token: write
             contents: read

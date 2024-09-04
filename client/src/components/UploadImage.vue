@@ -10,6 +10,7 @@
     </div>
 </template>
 
+
 <script setup lang="ts">
 import { ref } from 'vue';
 
@@ -23,6 +24,7 @@ const previewSrc = ref<string | null>(null);
 const message = ref<string>('');
 const messageClass = ref<string>('');
 const fileName = ref<string>('');
+const uploadedFileUrl = ref<string | null>(null); // Ref to store the uploaded file URL
 
 // Function to handle file change event
 const onFileChange = () => {
@@ -62,15 +64,24 @@ const uploadFile = async () => {
                 },
             });
 
+            if (!response.ok) {
+                throw new Error('Failed to upload file.');
+            }
+
             const data = await response.json();
+            const fileUrl = `https://ucarecdn.com/${data.file}/${file.name}`;
+
+            // Update UI with success message and file preview
             message.value = 'File uploaded successfully';
             messageClass.value = 'success';
-            previewSrc.value = `https://ucarecdn.com/${data.file}/${file.name}`;
-            const imageURL = previewSrc.value;
-            console.log(imageURL);
+            previewSrc.value = fileUrl;
+            uploadedFileUrl.value = fileUrl; // Store the URL in a ref
+            console.log('Uploaded file URL:', fileUrl);
+            console.log(uploadedFileUrl.value) // Use the URL as needed
+
         } catch (error) {
-            console.error('Error', error);
-            message.value = 'Error uploading file';
+            console.error('Upload Error:', error);
+            message.value = 'Error uploading file. Please try again.';
             messageClass.value = 'error';
         }
     } else {
@@ -79,13 +90,3 @@ const uploadFile = async () => {
     }
 };
 </script>
-
-<style scoped>
-.error {
-    color: red;
-}
-
-.success {
-    color: green;
-}
-</style>

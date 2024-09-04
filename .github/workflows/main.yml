@@ -132,13 +132,13 @@ jobs:
                   docker build
                   -t $SERVER_IMAGE_TAG
                   -f ./server/Dockerfile .
-                  --build-arg VITE_UPLOADCARE_PUB_KEY=${{ secrets.VITE_UPLOADCARE_PUB_KEY }}
 
             - name: Build client image
               run: >-
                   docker build
                   -t $CLIENT_IMAGE_TAG
                   -f ./client/Dockerfile .
+                  --build-arg VITE_UPLOADCARE_PUB_KEY=${{ secrets.VITE_UPLOADCARE_PUB_KEY }}
 
             - name: Push server image
               run: >-

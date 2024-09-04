@@ -5,7 +5,6 @@ import { useRouter } from 'vue-router'
 import { FwbButton, FwbHeading, FwbInput, FwbTextarea } from 'flowbite-vue'
 import useErrorMessage from '@/composables/useErrorMessage'
 import AlertError from '@/components/AlertError.vue'
-import UploadImage from "@/components/UploadImage.vue"
 // import CreateCategory from './CreateCategory.vue'
 
 const router = useRouter()
@@ -62,10 +61,7 @@ onMounted(() => {
           placeholder="Materials required for project" />
       </div>
     </div>
-    <div>
-      <!-- Use the UploadImage component -->
-      <UploadImage />
-    </div>
+
 
     <AlertError :message="errorMessage" />
     <!-- <CreateCategory />  Will leave this feature for future implementation-->

@@ -5,8 +5,10 @@ import { FwbHeading, FwbButton } from 'flowbite-vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Card from '@/components/Card.vue'
-import UploadImage from "@/components/UploadImage.vue"
+//import UploadImage from "@/components/UploadImage.vue"
+//import Image from "@/components/ProjectImage.vue"
 import { isLoggedIn } from '@/stores/user'
+import AddProjectImage from '@/components/AddProjectImage.vue'
 
 
 
@@ -87,9 +89,8 @@ onMounted(async () => {
                         <img src="https://via.placeholder.com/800x1000" alt="Project Image"
                             class="w-full h-auto rounded-lg shadow-md project-image" />
                         <div>
-                            <!-- Use the UploadImage component -->
-                            <UploadImage />
 
+                            <AddProjectImage :projectId="project.id" />
                         </div>
                     </div>
                     <!-- Content Section -->

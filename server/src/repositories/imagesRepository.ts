@@ -81,6 +81,39 @@ export function imageRepository(db: Database) {
                 .returning(withAuthor)
                 .executeTakeFirstOrThrow();
         },
+        /**
+         * Retrieves the image URL by image ID.
+         * @param id - The ID of the image to retrieve the URL for.
+         * @returns The image URL as a string.
+         */
+        async getImageUrlById(id: number): Promise<string | null> {
+            const result = await db
+                .selectFrom("projectImages")
+                .select("imageUrl")
+                .where("id", "=", id)
+                .executeTakeFirst();
+
+            // Return the imageUrl or null if not found
+            return result?.imageUrl ?? null;
+        },
+        /**
+         * Retrieves the first image URL associated with a project by project ID.
+         * @param projectId - The ID of the project to retrieve the image URL for.
+         * @returns The image URL as a string.
+         */
+        async getImageUrlByProjectId(
+            projectId: number
+        ): Promise<string | null> {
+            const result = await db
+                .selectFrom("projectImages")
+                .select("imageUrl")
+                .where("projectId", "=", projectId)
+                .orderBy("id", "asc")
+                .executeTakeFirst();
+
+            // Return the imageUrl or null if not found
+            return result?.imageUrl ?? null;
+        },
     };
 }
 

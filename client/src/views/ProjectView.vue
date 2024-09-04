@@ -14,6 +14,7 @@ const route = useRoute();
 const router = useRouter();
 const project = ref<ProjectPublic & { username: string } | undefined>(undefined);
 const ratings = ref<RatingPublic[]>([]);
+const imageUrl = ref<string>(''); // Add a ref to store the image URL
 const isLoading = ref(true);
 const error = ref<string | null>(null);
 const successMessage = ref<string | null>(null);
@@ -24,6 +25,9 @@ const fetchProjectAndRatings = async () => {
     const projectId = Number(route.params.id);
     const projectFound = await trpc.projects.findById.query(projectId);
     project.value = projectFound;
+
+    // Fetch the image URL for the project
+    imageUrl.value = await trpc.projectImages.getUrlByProjectId.query({ projectId }); // Fetch the image URL
 
     // Fetch ratings for the project
     ratings.value = await trpc.ratings.getByProjectId.query({ projectId });
@@ -67,6 +71,7 @@ const deleteProject = async () => {
     error.value = 'Failed to delete project. Please try again later.';
   }
 };
+
 </script>
 <template>
   <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8">
@@ -83,8 +88,7 @@ const deleteProject = async () => {
       <div class="flex flex-col md:flex-row items-start">
         <!-- Image Section -->
         <div class="flex-shrink-0 md:w-1/3 mb-6 md:mb-0">
-          <img src="https://via.placeholder.com/800x1000" alt="Project Image"
-            class="w-full h-auto rounded-lg shadow-md" />
+          <img :src="imageUrl" alt="Project Image" class="w-full h-auto rounded-lg shadow-md" />
         </div>
         <!-- Content Section -->
         <div class="flex-1 md:pl-6">
@@ -123,6 +127,7 @@ const deleteProject = async () => {
     </div>
   </div>
 </template>
+
 
 
 <style scoped>

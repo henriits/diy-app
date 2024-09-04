@@ -1,29 +1,37 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import type { Selectable } from 'kysely'
-import type { Projects } from '@server/shared/types'
+import { computed, ref, onMounted } from 'vue';
+import type { Selectable } from 'kysely';
+import type { Projects } from '@server/shared/types';
+import { trpc } from '@/trpc';
 
 interface Props {
-  project: Selectable<Projects>
+  project: Selectable<Projects>;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
+
+const imageUrl = ref<string>(''); // Ref to store the image URL
+
+// Fetch the image URL when the component is mounted
+onMounted(async () => {
+  imageUrl.value = await trpc.projectImages.getUrlByProjectId.query({ projectId: props.project.id });
+});
 
 const formattedDate = computed(() =>
   new Date(props.project.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   })
-)
+);
+
 </script>
 
 <template>
   <div class="flex flex-col sm:flex-row items-center p-6 bg-white shadow-lg rounded-lg dark:bg-gray-700">
     <!-- Image Section -->
     <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 w-52 h-52 overflow-hidden">
-      <img src="https://via.placeholder.com/200x200" alt="Project Image"
-        class="w-full h-full object-cover rounded-lg shadow-md" />
+      <img :src="imageUrl" alt="Project Image" class="w-full h-full object-cover rounded-lg shadow-md" />
     </div>
     <!-- Text Content -->
     <div class="flex-1 text-center sm:text-left">
@@ -39,6 +47,19 @@ const formattedDate = computed(() =>
   </div>
 </template>
 
+
 <style scoped>
 /* No additional styles needed for image sizing */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.project-image {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  max-height: 1000px;
+  object-fit: cover;
+}
 </style>

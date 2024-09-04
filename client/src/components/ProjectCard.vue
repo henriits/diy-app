@@ -10,7 +10,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const imageUrl = ref<string>(''); // Ref to store the image URL
+const imageUrl = ref<string | null>(null); // Ref to store the image URL
 
 // Fetch the image URL when the component is mounted
 onMounted(async () => {
@@ -31,7 +31,9 @@ const formattedDate = computed(() =>
   <div class="flex flex-col sm:flex-row items-center p-6 bg-white shadow-lg rounded-lg dark:bg-gray-700">
     <!-- Image Section -->
     <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 w-52 h-52 overflow-hidden">
-      <img :src="imageUrl" alt="Project Image" class="w-full h-full object-cover rounded-lg shadow-md" />
+      <img
+        :src="imageUrl || 'https://media.istockphoto.com/id/173033514/photo/tools-of-a-carpenter.jpg?s=612x612&w=0&k=20&c=hv3o7RuzbPM-9aWSjApjSOIHygKy04raW5aZncUxRQY='"
+        alt="Project Image" class="w-full h-full object-cover rounded-lg shadow-md" />
     </div>
     <!-- Text Content -->
     <div class="flex-1 text-center sm:text-left">

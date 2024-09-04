@@ -14,7 +14,7 @@ const route = useRoute();
 const router = useRouter();
 const project = ref<ProjectPublic & { username: string } | undefined>(undefined);
 const ratings = ref<RatingPublic[]>([]);
-const imageUrl = ref<string>(''); // Add a ref to store the image URL
+const imageUrl = ref<string | null>(null); // Ref to store the image URL
 const isLoading = ref(true);
 const error = ref<string | null>(null);
 const successMessage = ref<string | null>(null);
@@ -88,7 +88,9 @@ const deleteProject = async () => {
       <div class="flex flex-col md:flex-row items-start">
         <!-- Image Section -->
         <div class="flex-shrink-0 md:w-1/3 mb-6 md:mb-0">
-          <img :src="imageUrl" alt="Project Image" class="w-full h-auto rounded-lg shadow-md" />
+          <img
+            :src="imageUrl || 'https://media.istockphoto.com/id/173033514/photo/tools-of-a-carpenter.jpg?s=612x612&w=0&k=20&c=hv3o7RuzbPM-9aWSjApjSOIHygKy04raW5aZncUxRQY='"
+            alt="Project Image" class="w-full h-full object-cover rounded-lg shadow-md" />
         </div>
         <!-- Content Section -->
         <div class="flex-1 md:pl-6">

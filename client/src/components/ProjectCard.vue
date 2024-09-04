@@ -30,14 +30,14 @@ const formattedDate = computed(() =>
 <template>
   <div class="flex flex-col sm:flex-row items-center p-6 bg-white shadow-lg rounded-lg dark:bg-gray-700">
     <!-- Image Section -->
-    <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 w-52 h-52 overflow-hidden">
+    <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 w-full sm:w-52 h-52 overflow-hidden">
       <img
         :src="imageUrl || 'https://media.istockphoto.com/id/173033514/photo/tools-of-a-carpenter.jpg?s=612x612&w=0&k=20&c=hv3o7RuzbPM-9aWSjApjSOIHygKy04raW5aZncUxRQY='"
-        alt="Project Image" class="w-full h-full object-cover rounded-lg shadow-md" />
+        alt="Project Image" class="project-image" />
     </div>
     <!-- Text Content -->
     <div class="flex-1 text-center sm:text-left">
-      <h4 class="text-2xl font-bold mb-2 hover:text-blue-700">
+      <h4 class="text-base sm:text-xl font-bold mb-2 hover:text-blue-700">
         <RouterLink :to="`/project/${props.project.id}`">
           {{ props.project.title }}
         </RouterLink>
@@ -49,19 +49,10 @@ const formattedDate = computed(() =>
   </div>
 </template>
 
-
 <style scoped>
-/* No additional styles needed for image sizing */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
 .project-image {
   width: 100%;
-  max-width: 800px;
-  height: auto;
-  max-height: 1000px;
+  height: 100%;
   object-fit: cover;
 }
 </style>

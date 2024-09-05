@@ -7,7 +7,7 @@ export const random = process.env.CI ? Chance(1) : Chance()
 export const fakeUser = <T extends Insertable<Users>>(overrides: Partial<T> = {} as T) => ({
   email: random.email(),
   password: 'password.123',
-  username: random.last(),
+  username: random.word(),
   firstName: random.first(),
   lastName: random.last(),
   ...overrides,

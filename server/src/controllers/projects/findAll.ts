@@ -27,7 +27,7 @@ export default publicProcedure
                     .min(0)
                     .max(POSTGRES_INT_MAX)
                     .default(0),
-                limit: z.number().int().min(1).max(100).default(20),
+                limit: z.number().int().min(1).max(100).default(100),
             })
             .default({})
     )

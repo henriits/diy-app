@@ -4,12 +4,10 @@ import { trpc } from '@/trpc';
 import { isLoggedIn } from '@/stores/user';
 import type { ImagePublic } from '@server/shared/types';
 
-// Props for project ID
 const props = defineProps<{
     projectId: number;
 }>();
 
-// Refs for handling file upload
 const fileInput = ref<HTMLInputElement | null>(null);
 const previewSrc = ref<string | null>(null);
 const message = ref<string>('');
@@ -17,22 +15,18 @@ const messageClass = ref<string>('');
 const fileName = ref<string>('');
 const uploadedFileUrl = ref<string | null>(null);
 
-// Refs for handling URL submission
 const newImage = ref<string>('');
 const Images = ref<ImagePublic[]>([]);
 const successMessage = ref<string | null>(null);
 const error = ref<string | null>(null);
 
-// Define public key for Uploadcare
 const UploadCareKey = import.meta.env.VITE_UPLOADCARE_PUB_KEY;
 const pubkey = UploadCareKey;
 
-// Function to fetch images related to the project
 const fetchImages = async () => {
     Images.value = await trpc.projectImages.findByProjectId.query({ projectId: props.projectId });
 };
 
-// Function to handle file change event
 const onFileChange = () => {
     if (fileInput.value && fileInput.value.files) {
         const file = fileInput.value.files[0];
@@ -40,7 +34,6 @@ const onFileChange = () => {
     }
 };
 
-// Function to handle file upload
 const uploadFile = async () => {
     const maxSize = 6 * 1024 * 1024; // 6MB
 
@@ -77,14 +70,12 @@ const uploadFile = async () => {
             const data = await response.json();
             const fileUrl = `https://ucarecdn.com/${data.file}/${file.name}`;
 
-            // Update UI with success message and file preview
             message.value = 'File uploaded successfully';
             messageClass.value = 'success';
             previewSrc.value = fileUrl;
             uploadedFileUrl.value = fileUrl;
             console.log('Uploaded file URL:', fileUrl);
 
-            // Auto-submit the uploaded file URL to the project
             newImage.value = fileUrl;
             await submitImage();
 
@@ -99,10 +90,9 @@ const uploadFile = async () => {
     }
 };
 
-// Function to handle image URL submission
 const submitImage = async () => {
     if (!newImage.value.trim()) {
-        error.value = 'Image cannot be empty.';
+        error.value = 'Image URL cannot be empty.';
         setTimeout(() => { error.value = null; }, 2000);
         return;
     }
@@ -114,10 +104,10 @@ const submitImage = async () => {
         });
         successMessage.value = 'Image submitted successfully!';
         setTimeout(() => { successMessage.value = null; }, 2000);
-        newImage.value = ''; // Clear the input
-        await fetchImages(); // Refresh the Images list
+        newImage.value = '';
+        await fetchImages();
     } catch (err) {
-        error.value = 'Failed to submit Image. Please try again later.';
+        error.value = 'Failed to submit image. Please try again later.';
         setTimeout(() => { error.value = null; }, 2000);
     }
 };
@@ -128,28 +118,137 @@ onMounted(fetchImages);
 <template>
     <div v-if="isLoggedIn" class="image-component">
         <div class="image-header">
-            <strong class="Image">{{ }}</strong>
+            <h1 class="title">Upload Image</h1>
         </div>
 
         <!-- File Upload Section -->
-        <div>
-            <h1>File Uploader</h1>
-            <form @submit.prevent="uploadFile">
-                <input type="file" ref="fileInput" accept="image/*" @change="onFileChange" />
-                <button type="submit">Upload file</button>
+        <div class="upload-section">
+            <form @submit.prevent="uploadFile" class="upload-form">
+                <input type="file" ref="fileInput" accept="image/*" @change="onFileChange" class="file-input" />
+                <button type="submit" class="upload-button">Upload</button>
             </form>
-            <p :class="messageClass">{{ message }}</p>
-            <img v-if="previewSrc" :src="previewSrc" :alt="fileName" width="300" />
+            <p :class="messageClass" class="upload-message">{{ message }}</p>
+            <img v-if="previewSrc" :src="previewSrc" :alt="fileName" class="preview-img" />
         </div>
-
+        <h1 class="title">Have URL? Great! Add it here!</h1>
         <!-- URL Submission Section -->
-        <textarea v-model="newImage" placeholder="Add URL here" rows="1" class="image-input"></textarea>
-        <button type="button" @click="submitImage" class="submit-button">Submit Image</button>
-        <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
-        <div v-if="error" class="error-message">{{ error }}</div>
+        <div class="url-section">
+            <textarea v-model="newImage" placeholder="Add image URL here" rows="1" class="url-input"></textarea>
+            <button type="button" @click="submitImage" class="submit-button">Submit URL</button>
+            <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
+            <div v-if="error" class="error-message">{{ error }}</div>
+        </div>
     </div>
-    <div v-else class="not-logged-in">Please login to Image on the project!</div>
+    <div v-else class="not-logged-in">Please log in to manage images on this project!</div>
 </template>
+
 <style scoped>
-/* Add your styles here */
+.image-component {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: 1.5em;
+    color: #333;
+}
+
+.upload-section,
+.url-section {
+    margin-bottom: 20px;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-input {
+    margin-bottom: 10px;
+}
+
+.upload-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.upload-button:hover {
+    background-color: #0056b3;
+}
+
+.upload-message {
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.upload-message.error {
+    color: #dc3545;
+}
+
+.upload-message.success {
+    color: #28a745;
+}
+
+.preview-img {
+    margin-top: 20px;
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.url-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.submit-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.submit-button:hover {
+    background-color: #218838;
+}
+
+.success-message {
+    color: #28a745;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.not-logged-in {
+    text-align: center;
+    font-size: 1.2em;
+    color: #6c757d;
+}
 </style>

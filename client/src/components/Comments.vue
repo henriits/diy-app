@@ -1,6 +1,8 @@
 <template>
     <div v-if="isLoggedIn" class="comment-component">
         <div class="comments-list">
+            <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
+            <div v-if="error" class="error-message">{{ error }}</div>
             <div v-for="comment in comments" :key="comment.id" class="comment mt-2">
                 <div class="comment-header mt-2 flex space-x-4">
                     <strong class="comment-username">{{ comment.author.username }}</strong>
@@ -33,6 +35,7 @@
                 <div v-if="showConfirmDialog && commentToDelete === comment.id"
                     class="confirm-dialog mt-2 flex flex-col p-6 border rounded-lg">
                     <p class="confirm-message text-red-600">Are you sure you want to delete this comment?</p>
+
                     <div class="mt-2 flex space-x-4 confirm-actions">
                         <Button @click="handleDeleteConfirm" class="confirm-cancel-button">
                             <img src="../assets/icons/confirm-icon.svg" alt="confirm icon">
@@ -44,12 +47,11 @@
                 </div>
             </div>
         </div>
-        <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
-        <div v-if="error" class="error-message">{{ error }}</div>
+
         <div class="mt-2 flex flex-col w-full">
             <textarea v-model="newComment" placeholder="Write your comment here..." rows="1"
                 class="comment-input"></textarea>
-            <Button @click="submitComment" class="submit-comment-button">Submit Comment</Button>
+            <Button @click="submitComment" class="submit-button">Submit Comment</Button>
 
         </div>
 
@@ -305,13 +307,5 @@ onMounted(fetchComments);
     background-color: #fee2e2;
     /* Light red background */
     color: #b91c1c;
-}
-
-.submit-comment-button {
-    background-color: black;
-    color: white;
-    margin-top: 4px;
-    height: 2rem;
-    border-radius: 0.375rem;
 }
 </style>

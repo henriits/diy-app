@@ -5,7 +5,7 @@ import type { Selectable } from 'kysely'
 import type { Projects } from '@server/shared/types'
 import ProjectCard from '@/components/ProjectCard.vue'
 import { isLoggedIn, username } from '@/stores/user'
-import { FwbButton } from 'flowbite-vue'
+
 
 
 const allProjects = ref<Selectable<Projects>[]>([])
@@ -77,7 +77,7 @@ onMounted(fetchProjects)
 </script>
 
 <template>
-  <div class="dark:bg-gray-800 min-h-screen flex flex-col justify-center items-center">
+  <div class=" min-h-screen flex flex-col justify-center items-center">
     <!-- Container for Unlogged Users -->
     <div
       class="rounded-md bg-white px-6 py-8 lg:px-12 lg:py-16 flex flex-col lg:flex-row items-center justify-center space-y-8 lg:space-y-0 lg:space-x-8">
@@ -91,9 +91,11 @@ onMounted(fetchProjects)
 
       <!-- Text Section -->
       <div class="lg:w-1/2 text-center lg:text-left">
-        <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100 font-poppins tracking-tight shadow-md">
+        <h2 class="header-shine">
           DO IT YOURSELF!
         </h2>
+
+
 
         <p class="mt-4 text-gray-600 dark:text-gray-400 lg:max-w-md text-lg leading-relaxed">
           Share your unique crafting ideas, get inspired by
@@ -133,21 +135,27 @@ onMounted(fetchProjects)
         <div v-else class="text-center text-gray-500 dark:text-gray-400">No projects found!</div>
 
         <!-- Pagination Controls -->
-        <div class="mt-6 flex justify-center items-center gap-4">
+        <div class="mt-6 flex justify-center items-center gap-4 button-container">
           <!-- Previous Button -->
-          <FwbButton @click="changePage(currentPage - 1)" :disabled="currentPage === 1" color="blue"
-            class="px-4 py-2 border rounded dark:bg-gray-700">
-            Previous
-          </FwbButton>
+          <Button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" class="button-3d">
+            <div class="button-top">
+              <span class="material-icons">❮</span>
+            </div>
+            <div class="button-bottom"></div>
+            <div class="button-base"></div>
+          </Button>
 
           <!-- Page Number Display -->
           <span class="mx-4">Page {{ currentPage }} of {{ totalPages }}</span>
 
           <!-- Next Button -->
-          <FwbButton @click="changePage(currentPage + 1)" :disabled="!hasMorePages" color="blue"
-            class="px-4 py-2 border rounded dark:bg-gray-700">
-            Next
-          </FwbButton>
+          <Button @click="changePage(currentPage + 1)" :disabled="!hasMorePages" class="button-3d">
+            <div class="button-top">
+              <span class="material-icons">❯</span>
+            </div>
+            <div class="button-bottom"></div>
+            <div class="button-base"></div>
+          </button>
         </div>
       </div>
     </div>
@@ -156,5 +164,163 @@ onMounted(fetchProjects)
 
 
 <style scoped>
-/* Add any additional styles here */
+.header-shine {
+  color: #131010;
+  background: linear-gradient(to right, #9f9f9f 0%, #fff 10%, #868686 20%);
+  background-size: 200%;
+  /* Adjust background size to cover full text */
+  background-position: 0%;
+  /* For Chrome and Safari 3 */
+  -webkit-background-clip: text;
+  /* Vendor prefix for older WebKit browsers */
+
+  /* Standard property */
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s infinite linear;
+  animation-fill-mode: forwards;
+  font-weight: 600;
+  font-size: 36px;
+  white-space: nowrap;
+  font-family: "Poppins", sans-serif;
+}
+
+@-moz-keyframes shine {
+  0% {
+    background-position: 0%;
+  }
+
+  60% {
+    background-position: 180px;
+  }
+
+  100% {
+    background-position: 200%;
+  }
+}
+
+@-webkit-keyframes shine {
+  0% {
+    background-position: 0%;
+  }
+
+  60% {
+    background-position: 180px;
+  }
+
+  100% {
+    background-position: 200%;
+  }
+}
+
+@-o-keyframes shine {
+  0% {
+    background-position: 0%;
+  }
+
+  60% {
+    background-position: 180px;
+  }
+
+  100% {
+    background-position: 200%;
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0%;
+  }
+
+  60% {
+    background-position: 180px;
+  }
+
+  100% {
+    background-position: 200%;
+  }
+}
+
+
+
+/* Navigation buttons */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.button-3d {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  border-width: 0;
+  padding: 0 8px;
+  min-width: 4em;
+  min-height: 4em;
+  box-sizing: border-box;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 20px;
+}
+
+.button-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  padding: 8px 16px;
+  transform: translateY(0);
+  color: #fff;
+  background-image: linear-gradient(145deg, #6a11cb, #2575fc);
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  transition: transform 0.3s, border-radius 0.3s, background 10s;
+}
+
+.button-3d:active .button-top {
+  border-radius: 10px 10px 8px 8px / 8px;
+  transform: translateY(2px);
+  background-image: linear-gradient(145deg, #2575fc, #6a11cb);
+}
+
+.button-bottom {
+  position: absolute;
+  z-index: 1;
+  bottom: 4px;
+  left: 4px;
+  border-radius: 20px;
+  padding-top: 6px;
+  width: calc(100% - 8px);
+  height: calc(100% - 10px);
+  background-image: linear-gradient(145deg, #2575fc, #6a11cb);
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: border-radius 0.2s, padding-top 0.2s;
+}
+
+.button-base {
+  position: absolute;
+  z-index: 0;
+  top: 4px;
+  left: 0;
+  border-radius: 20px;
+  width: 100%;
+  height: calc(100% - 4px);
+
+  transition: border-radius 0.2s, padding-top 0.2s;
+}
+
+.button-3d:active .button-bottom {
+  border-radius: 10px 10px 8px 8px / 8px;
+  padding-top: 0;
+}
+
+.button-3d:active .button-base {
+  border-radius: 10px 10px 8px 8px / 8px;
+}
 </style>

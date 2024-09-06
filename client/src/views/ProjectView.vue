@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { trpc } from '@/trpc';
 import type { ProjectPublic, RatingPublic } from '@server/shared/types';
-import { FwbHeading, FwbButton } from 'flowbite-vue';
+import { FwbHeading } from 'flowbite-vue';
 import { computed, onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Card from '@/components/Card.vue';
@@ -94,7 +94,7 @@ const deleteProject = async () => {
         </div>
         <!-- Content Section -->
         <div class="flex-1 md:pl-6">
-          <Card class="p-6 bg-white shadow-lg rounded-lg">
+          <Card class="relative p-6 bg-white shadow-lg rounded-lg">
             <p class="font-semibold">Author: {{ project.username }}</p>
             <p class="mt-4"><strong>Description:</strong> {{ project.description }}</p>
             <p class="mt-4"><strong>Instructions:</strong> <span
@@ -104,17 +104,26 @@ const deleteProject = async () => {
             <br>
             <h2 v-if="totalRating" class="text-lg">Rating: {{ totalRating }} ★</h2>
             <p v-else class="text-lg">No ratings yet.</p>
+
+
+            <div v-if="project.userId === authUserId" class="absolute bottom-4 right-4 flex space-x-4">
+              <Button @click="goToEditPage" class="edit-button">
+                <img class="edit-svgIcon" src="../assets/icons/edit-icon.svg" alt="Edit Icon">
+              </Button>
+              <Button @click="initiateDelete" class="delete-button">
+                <img class="delete-svgIcon" src="../assets/icons/delete-icon.svg" alt="Delete Icon">
+              </Button>
+            </div>
           </Card>
-          <div v-if="project.userId === authUserId" class="mt-4 flex space-x-4">
-            <FwbButton @click="goToEditPage" size="lg">Edit Project</FwbButton>
-            <FwbButton @click="initiateDelete" size="lg" color="red">Delete Project</FwbButton>
-          </div>
+
           <!-- Confirmation Prompt -->
-          <div v-if="showDeleteConfirm" class="mt-4 p-4 border rounded-lg bg-white shadow-md">
+          <div v-if="showDeleteConfirm" class=" p-4 border rounded-lg bg-white shadow-md">
             <p class="text-red-600">Are you sure you want to delete this project?</p>
             <div class="mt-2 flex space-x-4">
-              <FwbButton @click="deleteProject" size="lg" color="red">Yes, Delete</FwbButton>
-              <FwbButton @click="cancelDelete" size="lg">Cancel</FwbButton>
+              <Button @click="deleteProject" class="confirm-cancel-button"><img src="../assets/icons/confirm-icon.svg"
+                  alt="confirm icon"></Button>
+              <Button @click="cancelDelete" class="confirm-cancel-button"><img src="../assets/icons/cancel-icon.svg"
+                  alt="cancel icon"></Button>
             </div>
           </div>
           <!-- Create Rating Section -->

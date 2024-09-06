@@ -66,9 +66,9 @@ onMounted(() => {
       <AlertError :message="errorMessage" class="mb-4" />
 
       <div class="mt-2">
-        <Button class="post-project-button w-full" type="submit">
+        <button class="post-project-button w-full" type="submit">
           Post Project
-        </Button>
+        </button>
       </div>
     </form>
   </div>

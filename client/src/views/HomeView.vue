@@ -137,19 +137,19 @@ onMounted(fetchProjects)
         <!-- Pagination Controls -->
         <div class="mt-6 flex justify-center items-center gap-4 button-container">
           <!-- Previous Button -->
-          <Button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" class="button-3d">
+          <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" class="button-3d">
             <div class="button-top">
               <span class="material-icons">❮</span>
             </div>
             <div class="button-bottom"></div>
             <div class="button-base"></div>
-          </Button>
+          </button>
 
           <!-- Page Number Display -->
           <span class="mx-4">Page {{ currentPage }} of {{ totalPages }}</span>
 
           <!-- Next Button -->
-          <Button @click="changePage(currentPage + 1)" :disabled="!hasMorePages" class="button-3d">
+          <button @click="changePage(currentPage + 1)" :disabled="!hasMorePages" class="button-3d">
             <div class="button-top">
               <span class="material-icons">❯</span>
             </div>

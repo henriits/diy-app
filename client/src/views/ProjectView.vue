@@ -115,12 +115,12 @@ const deleteProject = async () => {
 
               <!-- Buttons -->
               <div v-if="project.userId === authUserId" class="absolute bottom-4 right-4 flex space-x-4">
-                <Button @click="goToEditPage" class="edit-button">
+                <button @click="goToEditPage" class="edit-button">
                   <img class="edit-svgIcon" src="../assets/icons/edit-icon.svg" alt="Edit Icon">
-                </Button>
-                <Button @click="initiateDelete" class="delete-button">
+                </button>
+                <button @click="initiateDelete" class="delete-button">
                   <img class="delete-svgIcon" src="../assets/icons/delete-icon.svg" alt="Delete Icon">
-                </Button>
+                </button>
               </div>
             </Card>
 
@@ -128,12 +128,12 @@ const deleteProject = async () => {
             <div v-if="showDeleteConfirm" class="p-4 border rounded-lg bg-white shadow-md mt-4">
               <p class="text-red-600">Are you sure you want to delete this project?</p>
               <div class="mt-2 flex flex-col space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
-                <Button @click="deleteProject" class="confirm-cancel-button w-full sm:w-auto">
+                <button @click="deleteProject" class="confirm-cancel-button w-full sm:w-auto">
                   <img src="../assets/icons/confirm-icon.svg" alt="Confirm Icon">
-                </Button>
-                <Button @click="cancelDelete" class="confirm-cancel-button w-full sm:w-auto">
+                </button>
+                <button @click="cancelDelete" class="confirm-cancel-button w-full sm:w-auto">
                   <img src="../assets/icons/cancel-icon.svg" alt="Cancel Icon">
-                </Button>
+                </button>
               </div>
             </div>
 

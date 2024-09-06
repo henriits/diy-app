@@ -11,23 +11,23 @@
 
                 <div v-if="editingCommentId === comment.id" class="mt-3 flex space-x-4">
                     <textarea v-model="editedComment" rows="1" class="comment-edit-input"></textarea>
-                    <Button @click="updateComment(comment.id)" class="confirm-cancel-button">
+                    <button @click="updateComment(comment.id)" class="confirm-cancel-button">
                         <img src="../assets/icons/confirm-icon.svg" alt="confirm icon">
-                    </Button>
-                    <FwbButton @click="cancelEdit" class="confirm-cancel-button">
+                    </button>
+                    <button @click="cancelEdit" class="confirm-cancel-button">
                         <img src="../assets/icons/cancel-icon.svg" alt="cancel icon">
-                    </FwbButton>
+                    </button>
                 </div>
 
                 <div v-else class="mt-4 flex flex-col">
                     <p class="comment-content">{{ comment.content }}</p>
                     <div v-if="isCommentAuthor(comment)" class="mt-2 flex space-x-2 comment-actions ml-auto">
-                        <Button @click="startEdit(comment.id, comment.content)" class="edit-button">
+                        <button @click="startEdit(comment.id, comment.content)" class="edit-button">
                             <img class="edit-svgIcon" src="../assets/icons/edit-icon.svg" alt="Edit Icon">
-                        </Button>
-                        <Button @click="toggleConfirmDelete(comment.id)" class="delete-button">
+                        </button>
+                        <button @click="toggleConfirmDelete(comment.id)" class="delete-button">
                             <img class="edit-svgIcon" src="../assets/icons/delete-icon.svg" alt="Delete Icon">
-                        </Button>
+                        </button>
                     </div>
                 </div>
 
@@ -37,12 +37,12 @@
                     <p class="confirm-message text-red-600">Are you sure you want to delete this comment?</p>
 
                     <div class="mt-2 flex space-x-4 confirm-actions">
-                        <Button @click="handleDeleteConfirm" class="confirm-cancel-button">
+                        <button @click="handleDeleteConfirm" class="confirm-cancel-button">
                             <img src="../assets/icons/confirm-icon.svg" alt="confirm icon">
-                        </Button>
-                        <Button @click="handleDeleteCancel" class="confirm-cancel-button">
+                        </button>
+                        <button @click="handleDeleteCancel" class="confirm-cancel-button">
                             <img src="../assets/icons/cancel-icon.svg" alt="cancel icon">
-                        </Button>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
         <div class="mt-2 flex flex-col w-full">
             <textarea v-model="newComment" placeholder="Write your comment here..." rows="1"
                 class="comment-input"></textarea>
-            <Button @click="submitComment" class="submit-button">Submit Comment</Button>
+            <button @click="submitComment" class="submit-button">Submit Comment</button>
 
         </div>
 

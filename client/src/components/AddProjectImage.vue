@@ -116,7 +116,7 @@ onMounted(fetchImages);
 
 </script>
 <template>
-    <div v-if="isLoggedIn" class="image-component">
+    <div v-if="isLoggedIn" class="image-component ">
         <div class="image-header">
             <h1 class="title">Upload Image</h1>
         </div>
@@ -124,8 +124,9 @@ onMounted(fetchImages);
         <!-- File Upload Section -->
         <div class="upload-section">
             <form @submit.prevent="uploadFile" class="upload-form">
-                <input type="file" ref="fileInput" accept="image/*" @change="onFileChange" class="file-input" />
-                <button type="submit" class="upload-button">Upload</button>
+                <input type="file" ref="fileInput" accept="image/*" @change="onFileChange"
+                    class="file-input mt-2 flex space-x-4" />
+                <button type="submit" class="upload-button w-full">Upload</button>
             </form>
             <p :class="messageClass" class="upload-message">{{ message }}</p>
             <img v-if="previewSrc" :src="previewSrc" :alt="fileName" class="preview-img" />
@@ -133,8 +134,8 @@ onMounted(fetchImages);
         <h1 class="title">Have URL? Great! Add it here!</h1>
         <!-- URL Submission Section -->
         <div class="url-section">
-            <textarea v-model="newImage" placeholder="Add image URL here" rows="1" class="url-input"></textarea>
-            <button type="button" @click="submitImage" class="submit-button">Submit URL</button>
+            <textarea v-model="newImage" placeholder="Add image URL here" rows="1" class="url-input w-full"></textarea>
+            <button type="button" @click="submitImage" class="submit-button w-full">Submit URL</button>
             <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
             <div v-if="error" class="error-message">{{ error }}</div>
         </div>
@@ -178,13 +179,11 @@ onMounted(fetchImages);
 }
 
 .upload-button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1em;
+    color: #fff;
+    background-image: linear-gradient(145deg, #6a11cb, #2575fc);
+    margin-top: 4px;
+    height: 2rem;
+    border-radius: 0.375rem;
 }
 
 .upload-button:hover {
@@ -210,29 +209,7 @@ onMounted(fetchImages);
     border-radius: 8px;
 }
 
-.url-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1em;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-}
 
-.submit-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1em;
-}
-
-.submit-button:hover {
-    background-color: #218838;
-}
 
 .success-message {
     color: #28a745;

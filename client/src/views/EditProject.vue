@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { trpc } from '@/trpc'
 import type { ProjectPublic } from '@server/shared/types'
-import { FwbHeading, FwbButton } from 'flowbite-vue'
+import { FwbHeading } from 'flowbite-vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Card from '@/components/Card.vue'
@@ -122,7 +122,8 @@ onMounted(async () => {
                                     class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
                             </div>
                             <div class="flex space-x-4">
-                                <FwbButton @click="handleSubmit" size="lg" color="blue">Save Changes</FwbButton>
+                                <Button @click="handleSubmit" class="confirm-cancel-button"><img
+                                        src="../assets/icons/confirm-icon.svg" alt="confirm icon"></Button>
                             </div>
 
 

@@ -36,38 +36,40 @@ onMounted(() => {
 </script>
 
 <template>
-  <form aria-label="Project" @submit.prevent="createProject">
-    <div class="space-y-6">
-      <FwbHeading tag="h1" class="text-3xl">Create a new project</FwbHeading>
+  <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <form aria-label="Project" @submit.prevent="createProject" class="space-y-8">
+      <FwbHeading tag="h1" class="text-3xl font-bold text-gray-900 text-center">Create a New Project</FwbHeading>
 
-      <div class="mt-6">
-        <FwbInput aria-label="Project title" v-model="projectForm.title" :minlength="2" label="Project title"
-          placeholder="My Project" />
+      <div>
+        <FwbInput aria-label="Project title" v-model="projectForm.title" :minlength="2" label="Project Title"
+          placeholder="My Project" class="w-full" />
       </div>
 
-      <div class="mt-6">
+      <div>
         <FwbTextarea aria-label="Project description" v-model="projectForm.description" :rows="4"
-          label="Project description" placeholder="Describe your Project here..." />
+          label="Project Description" placeholder="Describe your project here..." class="w-full" />
       </div>
-      <div class="mt-6">
+
+      <div>
         <FwbTextarea aria-label="Project Instructions" v-model="projectForm.instructions" :rows="10"
-          label="Project instructions" placeholder="Write instructions for Project here...
-           NB! Add numbers before each instruction.
-           Start by writing 1. Followed by text , then 2. With another instruction
-           This will separate instructions on new line" />
+          label="Project Instructions" placeholder="Write instructions for the project here... 
+          NB! Add numbers before each instruction.
+          Start by writing 1. Followed by text, then 2. With another instruction.
+          This will separate instructions on a new line." class="w-full" />
       </div>
-      <div class="mt-6">
-        <FwbTextarea aria-label="Project materials" v-model="projectForm.materials" :rows="3" label="Project materials"
-          placeholder="Materials required for project" />
+
+      <div>
+        <FwbTextarea aria-label="Project materials" v-model="projectForm.materials" :rows="3" label="Project Materials"
+          placeholder="Materials required for the project" class="w-full" />
       </div>
-    </div>
 
+      <AlertError :message="errorMessage" class="mb-4" />
 
-    <AlertError :message="errorMessage" />
-    <!-- <CreateCategory />  Will leave this feature for future implementation-->
-
-    <div class="mt-6 flex justify-end">
-      <FwbButton size="lg" type="submit">Post Project</FwbButton>
-    </div>
-  </form>
+      <div class="mt-2">
+        <Button class="post-project-button w-full" type="submit">
+          Post Project
+        </Button>
+      </div>
+    </form>
+  </div>
 </template>

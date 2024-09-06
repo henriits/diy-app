@@ -156,7 +156,8 @@
   background-color: #333333; /* Slightly lighter black on hover */
 }
 
-.submit-button {
+.submit-button,
+.post-project-button {
   color: #fff;
   background-image: linear-gradient(145deg, #6a11cb, #2575fc);
   margin-top: 4px;

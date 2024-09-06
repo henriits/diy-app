@@ -74,65 +74,79 @@ const deleteProject = async () => {
 
 </script>
 <template>
-  <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8">
-    <div class="items-center lg:flex">Please Login to view the project!</div>
-  </div>
-  <div v-else>
-    <div v-if="isLoading" class="text-center">Loading...</div>
-    <div v-if="error" class="text-center text-red-500">{{ error }}</div>
-    <div v-if="successMessage" class="text-center text-green-500">{{ successMessage }}</div>
-    <div v-if="project" class="p-6">
-      <FwbHeading tag="h1" class="mb-8 mt-10 text-3xl font-bold">
-        {{ project.title }}
-      </FwbHeading>
-      <div class="flex flex-col md:flex-row items-start">
-        <!-- Image Section -->
-        <div class="flex-shrink-0 md:w-1/3 mb-6 md:mb-0">
-          <img
-            :src="imageUrl || 'https://media.istockphoto.com/id/173033514/photo/tools-of-a-carpenter.jpg?s=612x612&w=0&k=20&c=hv3o7RuzbPM-9aWSjApjSOIHygKy04raW5aZncUxRQY='"
-            alt="Project Image" class="w-full h-full object-cover rounded-lg shadow-md" />
-        </div>
-        <!-- Content Section -->
-        <div class="flex-1 md:pl-6">
-          <Card class="relative p-6 bg-white shadow-lg rounded-lg">
-            <p class="font-semibold">Author: {{ project.username }}</p>
-            <p class="mt-4"><strong>Description:</strong> {{ project.description }}</p>
-            <p class="mt-4"><strong>Instructions:</strong> <span
-                v-html="formatInstructions(project.instructions)"></span></p>
-            <p class="mt-4"><strong>Materials:</strong> {{ project.materials }}</p>
-            <p class="mt-4"><strong>Created At:</strong> {{ new Date(project.createdAt).toLocaleDateString() }}</p>
-            <br>
-            <h2 v-if="totalRating" class="text-lg">Rating: {{ totalRating }} ★</h2>
-            <p v-else class="text-lg">No ratings yet.</p>
+  <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <!-- Login Reminder -->
+    <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8 text-center">
+      <p>Please log in to view the project!</p>
+    </div>
 
+    <!-- Project Details -->
+    <div v-else>
+      <!-- Loading, Error, and Success Messages -->
+      <div v-if="isLoading" class="text-center text-gray-500">Loading...</div>
+      <div v-if="error" class="text-center text-red-500">{{ error }}</div>
+      <div v-if="successMessage" class="text-center text-green-500">{{ successMessage }}</div>
 
-            <div v-if="project.userId === authUserId" class="absolute bottom-4 right-4 flex space-x-4">
-              <Button @click="goToEditPage" class="edit-button">
-                <img class="edit-svgIcon" src="../assets/icons/edit-icon.svg" alt="Edit Icon">
-              </Button>
-              <Button @click="initiateDelete" class="delete-button">
-                <img class="delete-svgIcon" src="../assets/icons/delete-icon.svg" alt="Delete Icon">
-              </Button>
+      <div v-if="project" class="p-6">
+        <FwbHeading tag="h1" class="mb-8 mt-10 text-3xl font-bold">
+          {{ project.title }}
+        </FwbHeading>
+
+        <div class="flex flex-col md:flex-row items-start">
+          <!-- Image Section -->
+          <div class="w-full md:w-1/3 mb-6 md:mb-0">
+            <img
+              :src="imageUrl || 'https://media.istockphoto.com/id/173033514/photo/tools-of-a-carpenter.jpg?s=612x612&w=0&k=20&c=hv3o7RuzbPM-9aWSjApjSOIHygKy04raW5aZncUxRQY='"
+              alt="Project Image" class="w-full h-auto object-cover rounded-lg shadow-md" />
+          </div>
+
+          <!-- Content Section -->
+          <div class="w-full md:w-2/3 md:pl-6">
+            <Card class="relative p-6 bg-white shadow-lg rounded-lg">
+              <p class="font-semibold">Author: {{ project.username }}</p>
+              <p class="mt-4"><strong>Description:</strong> {{ project.description }}</p>
+              <p class="mt-4"><strong>Instructions:</strong> <span
+                  v-html="formatInstructions(project.instructions)"></span></p>
+              <p class="mt-4"><strong>Materials:</strong> {{ project.materials }}</p>
+              <p class="mt-4"><strong>Created At:</strong> {{ new Date(project.createdAt).toLocaleDateString() }}</p>
+              <br>
+              <h2 v-if="totalRating" class="text-lg">Rating: {{ totalRating }} ★</h2>
+              <p v-else class="text-lg">No ratings yet.</p>
+
+              <!-- Buttons -->
+              <div v-if="project.userId === authUserId" class="absolute bottom-4 right-4 flex space-x-4">
+                <Button @click="goToEditPage" class="edit-button">
+                  <img class="edit-svgIcon" src="../assets/icons/edit-icon.svg" alt="Edit Icon">
+                </Button>
+                <Button @click="initiateDelete" class="delete-button">
+                  <img class="delete-svgIcon" src="../assets/icons/delete-icon.svg" alt="Delete Icon">
+                </Button>
+              </div>
+            </Card>
+
+            <!-- Confirmation Prompt -->
+            <div v-if="showDeleteConfirm" class="p-4 border rounded-lg bg-white shadow-md mt-4">
+              <p class="text-red-600">Are you sure you want to delete this project?</p>
+              <div class="mt-2 flex flex-col space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
+                <Button @click="deleteProject" class="confirm-cancel-button w-full sm:w-auto">
+                  <img src="../assets/icons/confirm-icon.svg" alt="Confirm Icon">
+                </Button>
+                <Button @click="cancelDelete" class="confirm-cancel-button w-full sm:w-auto">
+                  <img src="../assets/icons/cancel-icon.svg" alt="Cancel Icon">
+                </Button>
+              </div>
             </div>
-          </Card>
 
-          <!-- Confirmation Prompt -->
-          <div v-if="showDeleteConfirm" class=" p-4 border rounded-lg bg-white shadow-md">
-            <p class="text-red-600">Are you sure you want to delete this project?</p>
-            <div class="mt-2 flex space-x-4">
-              <Button @click="deleteProject" class="confirm-cancel-button"><img src="../assets/icons/confirm-icon.svg"
-                  alt="confirm icon"></Button>
-              <Button @click="cancelDelete" class="confirm-cancel-button"><img src="../assets/icons/cancel-icon.svg"
-                  alt="cancel icon"></Button>
+            <!-- Create Rating Section -->
+            <div v-if="project.userId !== authUserId" class="mt-6 w-full">
+              <Rating :projectId="project.id" @rating-submitted="fetchProjectAndRatings" />
+            </div>
+
+            <!-- Create Comments Section -->
+            <div class="mt-6 w-full">
+              <Comment :projectId="project.id" />
             </div>
           </div>
-          <!-- Create Rating Section -->
-          <!-- Only show the Rating component if the current user is not the project author -->
-          <div v-if="project.userId !== authUserId">
-            <Rating :projectId="project.id" @rating-submitted="fetchProjectAndRatings" />
-          </div>
-          <!-- Create Comments Section -->
-          <Comment :projectId="project.id" />
         </div>
       </div>
     </div>

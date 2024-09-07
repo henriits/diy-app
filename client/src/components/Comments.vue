@@ -26,7 +26,7 @@
                             <img class="edit-svgIcon" src="../assets/icons/edit-icon.svg" alt="Edit Icon">
                         </button>
                         <button @click="toggleConfirmDelete(comment.id)" class="delete-button">
-                            <img class="edit-svgIcon" src="../assets/icons/delete-icon.svg" alt="Delete Icon">
+                            <img class="delete-svgIcon" src="../assets/icons/delete-icon.svg" alt="Delete Icon">
                         </button>
                     </div>
                 </div>

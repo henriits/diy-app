@@ -115,8 +115,7 @@ const deleteProject = async () => {
               :src="imageUrl || 'https://media.istockphoto.com/id/173033514/photo/tools-of-a-carpenter.jpg?s=612x612&w=0&k=20&c=hv3o7RuzbPM-9aWSjApjSOIHygKy04raW5aZncUxRQY='"
               alt="Project Image" class="w-full h-auto object-cover rounded-lg shadow-md" />
             <!-- Button to Trigger Modal -->
-            <button type="button" @click="openModal"
-              class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600">
+            <button type="button" @click="openModal" class="large-img-button w-full">
               View Larger Image
             </button>
           </div>
@@ -151,10 +150,10 @@ const deleteProject = async () => {
             <div v-if="showDeleteConfirm" class="p-4 border rounded-lg bg-white shadow-md mt-4">
               <p class="text-red-600">Are you sure you want to delete this project?</p>
               <div class="mt-2 flex flex-col space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
-                <button @click="deleteProject" class="confirm-cancel-button w-full sm:w-auto">
-                  <img src="../assets/icons/confirm-icon.svg" alt="Confirm Icon">
+                <button @click="deleteProject" class="confirm-cancel-button">
+                  <img src="../assets/icons/confirm-icon.svg" alt="Confirm icon">
                 </button>
-                <button @click="cancelDelete" class="confirm-cancel-button w-full sm:w-auto">
+                <button @click="cancelDelete" class="confirm-cancel-button">
                   <img src="../assets/icons/cancel-icon.svg" alt="Cancel Icon">
                 </button>
               </div>
@@ -192,9 +191,7 @@ const deleteProject = async () => {
                   :src="imageUrl || 'https://media.istockphoto.com/id/173033514/photo/tools-of-a-carpenter.jpg?s=612x612&w=0&k=20&c=hv3o7RuzbPM-9aWSjApjSOIHygKy04raW5aZncUxRQY='"
                   alt="Larger Project Image" class="w-full h-auto rounded-lg" />
                 <div class="mt-4">
-                  <button type="button"
-                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    @click="closeModal">
+                  <button type="button" class="large-img-button w-full" @click="closeModal">
                     Close
                   </button>
                 </div>

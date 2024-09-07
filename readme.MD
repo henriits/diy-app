@@ -6,23 +6,48 @@ Link to live application : https://diy-application.th0j9v66qkq0c.eu-central-1.cs
 
 The DIY App is a vibrant platform for craft enthusiasts to showcase their hand-crafted projects, whether it’s woodworking, knitting, or any other creative pursuit. The app provides users with the tools to create detailed project pages, complete with step-by-step instructions, images, and more. It fosters a community where users can connect, share, and discover new crafting ideas in an intuitive and engaging environment.
 
-### Key Features
+## Key Features
 
--   **Project Pages**: Users can create and manage detailed pages for their projects. Each project includes:
+-   **Project Pages**: Users can create, update, and delete detailed pages for their projects. Each project includes:
 
     -   **Title**: The name of the project.
     -   **Description**: A brief overview of the project.
     -   **Instructions**: Detailed, step-by-step guidance on how to complete the project.
     -   **Materials**: A list of materials needed.
-    -   **Images**: Visuals to illustrate the project process and outcome.
+    -   **Images**: Visuals to illustrate the project process and outcome (images can be added or updated with links or files converted into URLs).
 
--   **Project Categories**: Projects are organized into categories to facilitate easy searching and discovery. Categories are defined and assigned to projects, making it simple to find projects by type or theme.
--   **Comments and Ratings**: Users can interact with projects by:
+-   **Comments and Ratings**: Users can:
 
-    -   Leaving comments to provide feedback or ask questions.
-    -   Rating projects to express their appreciation and help others find high-quality content.
+    -   Leave comments on projects (edit or delete comments).
+    -   Rate projects to express appreciation and help others find high-quality content.
 
--   **Search and Discover**: The app includes robust search and discovery features, allowing users to find projects based on keywords, categories, or popularity.
+-   **Search and Discover**: Users can search for projects using keywords and navigate through pagination (6 projects per page).
+
+-   **User Authentication**: Secure user sign-up, login, and authentication using tokens. Authentication ensures that only authorized users can create, update, or delete their own projects.
+
+## Current Implementation
+
+-   **Frontend**: Developed with Vue.js, providing a dynamic and responsive user interface.
+-   **Backend**: Built with Node.js, utilizing tRPC for type-safe API interactions.
+-   **Database**: Hosted on Neon, managing user data, projects, comments, ratings, and images.
+-   **Containerization**: The application is containerized using Docker for consistent deployment.
+-   **Cloud Hosting**: Deployed on AWS Lightsail for scalable cloud infrastructure.
+-   **CDN**: Images are managed and delivered via UploadCare.
+-   **Automation**: GitHub Actions handle automated testing, deployment workflows, and page publishing.
+
+**Overall Application Functionality**:
+
+-   Users can sign up, log in, create, update, and delete projects.
+-   Add images to projects or update images using links or files converted into URLs.
+-   Comment on projects, edit or delete comments.
+-   Add ratings to other projects (not one's own).
+-   Search for projects using a query on the home page and navigate with pagination (6 projects per page).
+-   Projects are not editable by other users; authentication tokens are used to manage access.
+
+## Future Ideas and Implementations
+
+-   **Category Navigation**: Users will be able to select categories to view all projects associated with the selected category.
+-   **Favorites System**: Users will be able to add and remove projects from their favorites.
 
 ### Database Schema
 
@@ -33,16 +58,6 @@ The DIY App utilizes a comprehensive database schema to manage and organize data
 -   **Comments**: Captures user feedback on projects with timestamps and associations to projects and users.
 -   **Ratings**: Records user ratings for projects.
 -   **ProjectImages**: Stores images related to projects.
-
-## Current Progress
-
--   **Frontend**: Developed with Vue.js for a dynamic and responsive user interface.
--   **Backend**: Built with Node.js, utilizing tRPC for type-safe API interactions.
--   **Database**: Hosted on Neon, storing user data, projects, comments, ratings, and images.
--   **Containerization**: The application is containerized using Docker.
--   **Cloud Hosting**: Deployed on AWS Lightsail for scalable cloud infrastructure.
--   **CDN**: Images are managed and delivered via UploadCare.
--   **Automation**: GitHub Actions are used for automated testing and deployment workflows.
 
 ### Usage
 

@@ -86,8 +86,7 @@ onMounted(async () => {
                 <h1 class="title">Upload Image</h1>
             </div>
             <div class="flex flex-col items-center">
-                <img :src="imageUrl || 'https://via.placeholder.com/400x800'" alt="Project Image"
-                    class="rounded-lg shadow-md project-image" />
+
                 <div class="w-full mt-4">
                     <AddProjectImage :projectId="project.id" />
                 </div>

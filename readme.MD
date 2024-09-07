@@ -2,6 +2,8 @@
 
 ### Overview
 
+Link to live application : https://diy-application.th0j9v66qkq0c.eu-central-1.cs.amazonlightsail.com/
+
 The DIY App is a vibrant platform for craft enthusiasts to showcase their hand-crafted projects, whether it’s woodworking, knitting, or any other creative pursuit. The app provides users with the tools to create detailed project pages, complete with step-by-step instructions, images, and more. It fosters a community where users can connect, share, and discover new crafting ideas in an intuitive and engaging environment.
 
 ### Key Features
@@ -30,19 +32,17 @@ The DIY App utilizes a comprehensive database schema to manage and organize data
 -   **Projects**: Contains project details such as title, description, instructions, materials, and timestamps for creation and updates.
 -   **Comments**: Captures user feedback on projects with timestamps and associations to projects and users.
 -   **Ratings**: Records user ratings for projects.
--   **ProjectCategories**: Defines various categories for organizing projects.
--   **ProjectCategoryAssignments**: Associates projects with their respective categories.
 -   **ProjectImages**: Stores images related to projects.
 
-### Current Progress
+## Current Progress
 
-The current development progress focuses solely on the backend functionality of the DIY App. This includes:
-
--   Database schema and structure
--   API endpoints for managing users, projects, comments, ratings, and images
--   Server-side logic and data handling
-
-The frontend implementation and integration with the backend are forthcoming.
+-   **Frontend**: Developed with Vue.js for a dynamic and responsive user interface.
+-   **Backend**: Built with Node.js, utilizing tRPC for type-safe API interactions.
+-   **Database**: Hosted on Neon, storing user data, projects, comments, ratings, and images.
+-   **Containerization**: The application is containerized using Docker.
+-   **Cloud Hosting**: Deployed on AWS Lightsail for scalable cloud infrastructure.
+-   **CDN**: Images are managed and delivered via UploadCare.
+-   **Automation**: GitHub Actions are used for automated testing and deployment workflows.
 
 ### Usage
 

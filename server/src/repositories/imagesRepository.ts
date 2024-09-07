@@ -82,6 +82,24 @@ export function imageRepository(db: Database) {
                 .executeTakeFirstOrThrow();
         },
         /**
+         * Updates a image by ID and returns the updated image.
+         * @param projectId - The ID of the project where to update image url.
+         * @param data - The updated image data.
+         * @returns The updated image.
+         */
+        async updateByProjectId(
+            projectId: number,
+            data: Updateable<ImagePublic>
+        ): Promise<ImagePublic> {
+            return db
+                .updateTable("projectImages")
+                .set(data)
+                .where("projectId", "=", projectId)
+                .returning(imageKeysPublic)
+                .returning(withAuthor)
+                .executeTakeFirstOrThrow();
+        },
+        /**
          * Retrieves the image URL by image ID.
          * @param id - The ID of the image to retrieve the URL for.
          * @returns The image URL as a string.

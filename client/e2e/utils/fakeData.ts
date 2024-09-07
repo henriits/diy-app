@@ -4,10 +4,19 @@ import { Chance } from 'chance'
 
 export const random = process.env.CI ? Chance(1) : Chance()
 
+const generateUsername = (): string => {
+  let username = ''
+  // Ensure that the username is longer than 3 letters and contains only letters
+  while (username.length <= 3 || !/^[A-Za-z]+$/.test(username)) {
+    username = random.word() // You can replace random.word() with another function if needed
+  }
+  return username
+}
+
 export const fakeUser = <T extends Insertable<Users>>(overrides: Partial<T> = {} as T) => ({
   email: random.email(),
   password: 'password.123',
-  username: random.word(),
+  username: generateUsername(),
   firstName: random.first(),
   lastName: random.last(),
   ...overrides,

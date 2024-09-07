@@ -67,7 +67,7 @@ import { ref, onMounted, computed } from 'vue';
 import { trpc } from '@/trpc';
 import { isLoggedIn, authUserId } from '@/stores/user'; // Correct imports
 import type { CommentPublic } from '@server/shared/types';
-import { FwbButton } from 'flowbite-vue'; // Import Flowbite components
+
 
 const props = defineProps<{
     projectId: number;

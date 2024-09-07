@@ -77,15 +77,14 @@ onMounted(fetchProjects)
 </script>
 
 <template>
-  <div class=" min-h-screen flex flex-col justify-center items-center">
-    <!-- Container for Unlogged Users -->
+  <div class="">
     <div
       class="rounded-md bg-white px-6 py-8 lg:px-12 lg:py-16 flex flex-col lg:flex-row items-center justify-center space-y-8 lg:space-y-0 lg:space-x-8">
       <!-- Image Section -->
-      <div class="flex-shrink-0 lg:w-1/2">
-        <picture class="flex-shrink-0 lg:w-1/2">
-          <img class=" h-auto max-h-64 rounded-md object-cover object-center" src="../assets/illustration.png"
-            alt="Person typing" />
+      <div class="flex items-center justify-center lg:w-1/2">
+        <picture class="flex">
+          <img class="h-auto max-h-64 rounded-md object-cover object-center" src="../assets/illustration.png"
+            alt="Person reading blueprint" />
         </picture>
       </div>
 
@@ -94,8 +93,6 @@ onMounted(fetchProjects)
         <h2 class="header-shine">
           DO IT YOURSELF!
         </h2>
-
-
 
         <p class="mt-4 text-gray-600 dark:text-gray-400 lg:max-w-md text-lg leading-relaxed">
           Share your unique crafting ideas, get inspired by
@@ -109,6 +106,7 @@ onMounted(fetchProjects)
         </div>
       </div>
     </div>
+
 
     <!-- Sign Up and Log In Buttons -->
     <div v-if="!isLoggedIn" class="mt-8 flex gap-4">

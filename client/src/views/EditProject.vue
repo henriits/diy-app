@@ -24,6 +24,9 @@ const projectForm = ref({
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 
+const imageUrl = ref<string | null>(null);
+
+
 const handleSubmit = async () => {
     // Clear any previous error message
     error.value = null
@@ -60,6 +63,7 @@ onMounted(async () => {
                 materials: projectFound.materials || '',
                 username: projectFound.username || ''
             }
+            imageUrl.value = await trpc.projectImages.getUrlByProjectId.query({ projectId: project.value.id });
         }
     } catch (err) {
         error.value = 'Failed to load project details. Please try again later.'
@@ -73,24 +77,27 @@ onMounted(async () => {
     <div v-if="!isLoggedIn" class="rounded-md bg-white px-6 py-8">
         <div class="items-center lg:flex">Please Login to edit the project!</div>
     </div>
-    <div v-else>
+    <div v-else class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
         <div v-if="isLoading" class="text-center">Loading...</div>
         <div v-if="error" class="text-center text-red-500">{{ error }}</div>
         <div v-if="project" class="p-6">
+            <!-- Image Section -->
+            <div class="image-header">
+                <h1 class="title">Upload Image</h1>
+            </div>
+            <div class="flex flex-col items-center">
+                <img :src="imageUrl || 'https://via.placeholder.com/400x800'" alt="Project Image"
+                    class="rounded-lg shadow-md project-image" />
+                <div class="w-full mt-4">
+                    <AddProjectImage :projectId="project.id" />
+                </div>
+            </div>
             <FwbHeading tag="h1" class="mb-8 mt-10 text-3xl font-bold">
                 Edit Project: {{ projectForm.title }}
             </FwbHeading>
             <form @submit.prevent="handleSubmit" aria-label="edit-project">
                 <div class="flex flex-col md:flex-row items-start">
-                    <!-- Image Section -->
-                    <div class="flex-shrink-0 md:w-1/3 mb-6 md:mb-0">
-                        <img src="https://via.placeholder.com/800x1000" alt="Project Image"
-                            class="w-full h-auto rounded-lg shadow-md project-image" />
-                        <div class="w-full">
 
-                            <AddProjectImage :projectId="project.id" />
-                        </div>
-                    </div>
                     <!-- Content Section -->
                     <div class="flex-1  w-full">
                         <Card class="p-6 bg-white shadow-lg rounded-lg">
@@ -141,9 +148,19 @@ onMounted(async () => {
 <style scoped>
 .project-image {
     width: 100%;
-    max-width: 800px;
+    max-width: 25rem;
     height: auto;
-    max-height: 1000px;
+    max-height: 35rem;
     object-fit: cover;
+}
+
+.image-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: 1.5em;
+    color: #333;
 }
 </style>

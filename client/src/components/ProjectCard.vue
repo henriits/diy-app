@@ -30,7 +30,8 @@ const formattedDate = computed(() =>
 <template>
   <div class="flex flex-col sm:flex-row items-center p-6 bg-white shadow-lg rounded-lg dark:bg-gray-700">
     <!-- Image Section -->
-    <div class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 w-full sm:w-52 h-52 overflow-hidden">
+    <div
+      class="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 w-full md:w-36 lg:w-44 h-36 lg:h-44 overflow-hidden flex items-center justify-center">
       <img
         :src="imageUrl || 'https://media.istockphoto.com/id/173033514/photo/tools-of-a-carpenter.jpg?s=612x612&w=0&k=20&c=hv3o7RuzbPM-9aWSjApjSOIHygKy04raW5aZncUxRQY='"
         alt="Project Image" class="project-image" />

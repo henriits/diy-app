@@ -117,9 +117,7 @@ onMounted(fetchImages);
 </script>
 <template>
     <div v-if="isLoggedIn" class="image-component ">
-        <div class="image-header">
-            <h1 class="title">Upload Image</h1>
-        </div>
+
 
         <!-- File Upload Section -->
         <div class="upload-section">
@@ -153,15 +151,7 @@ onMounted(fetchImages);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.image-header {
-    margin-bottom: 20px;
-    text-align: center;
-}
 
-.title {
-    font-size: 1.5em;
-    color: #333;
-}
 
 .upload-section,
 .url-section {

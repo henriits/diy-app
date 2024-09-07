@@ -51,7 +51,6 @@ onMounted(fetchProjects)
                     <div class="flex items-center justify-center lg:justify-end">
                         <div class="max-w-lg">
                             <picture>
-                                <source srcset="../assets/illustration.webp" type="image/webp" />
                                 <img class="h-64 w-full rounded-md object-cover object-center"
                                     src="../assets/illustration.png" alt="Person typing" />
                             </picture>

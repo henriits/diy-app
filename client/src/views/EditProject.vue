@@ -5,8 +5,6 @@ import { FwbHeading } from 'flowbite-vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Card from '@/components/Card.vue'
-//import UploadImage from "@/components/UploadImage.vue"
-//import Image from "@/components/ProjectImage.vue"
 import { isLoggedIn } from '@/stores/user'
 import AddProjectImage from '@/components/AddProjectImage.vue'
 
@@ -82,48 +80,53 @@ onMounted(async () => {
             <FwbHeading tag="h1" class="mb-8 mt-10 text-3xl font-bold">
                 Edit Project: {{ projectForm.title }}
             </FwbHeading>
-            <form @submit.prevent="handleSubmit">
+            <form @submit.prevent="handleSubmit" aria-label="edit-project">
                 <div class="flex flex-col md:flex-row items-start">
                     <!-- Image Section -->
                     <div class="flex-shrink-0 md:w-1/3 mb-6 md:mb-0">
                         <img src="https://via.placeholder.com/800x1000" alt="Project Image"
                             class="w-full h-auto rounded-lg shadow-md project-image" />
-                        <div>
+                        <div class="w-full">
 
                             <AddProjectImage :projectId="project.id" />
                         </div>
                     </div>
                     <!-- Content Section -->
-                    <div class="flex-1 md:pl-6">
+                    <div class="flex-1  w-full">
                         <Card class="p-6 bg-white shadow-lg rounded-lg">
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Project Title</label>
                                 <input v-model="projectForm.title" type="text"
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                                    placeholder="title" />
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Author</label>
                                 <input v-model="projectForm.username" type="text" disabled
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                                    placeholder="author" />
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Description</label>
                                 <textarea v-model="projectForm.description" rows="4"
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"></textarea>
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                                    placeholder="description"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Instructions</label>
                                 <textarea v-model="projectForm.instructions" rows="6"
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"></textarea>
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                                    placeholder="instructions"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Materials</label>
                                 <input v-model="projectForm.materials" type="text"
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                                    placeholder="materials" />
                             </div>
                             <div class="flex space-x-4">
-                                <Button @click="handleSubmit" class="confirm-cancel-button"><img
-                                        src="../assets/icons/confirm-icon.svg" alt="confirm icon"></Button>
+                                <button @click="handleSubmit" class="confirm-cancel-button"><img
+                                        src="../assets/icons/confirm-icon.svg" alt="confirm icon"></button>
                             </div>
 
 

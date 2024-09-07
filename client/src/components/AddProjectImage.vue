@@ -125,7 +125,7 @@ onMounted(fetchImages);
         <div class="upload-section">
             <form @submit.prevent="uploadFile" class="upload-form">
                 <input type="file" ref="fileInput" accept="image/*" @change="onFileChange"
-                    class="file-input mt-2 flex space-x-4" />
+                    class="file-input mt-2 flex space-x-4" placeholder="image">
                 <button type="submit" class="upload-button w-full">Upload</button>
             </form>
             <p :class="messageClass" class="upload-message">{{ message }}</p>

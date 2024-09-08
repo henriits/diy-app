@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { trpc } from '@/trpc'
 import type { ProjectPublic } from '@server/shared/types'
-import { FwbHeading } from 'flowbite-vue'
+import { FwbHeading, FwbInput, FwbTextarea } from 'flowbite-vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Card from '@/components/Card.vue'
@@ -100,38 +100,56 @@ onMounted(async () => {
                     <!-- Content Section -->
                     <div class="flex-1  w-full">
                         <Card class="p-6 bg-white shadow-lg rounded-lg">
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">Project Title</label>
-                                <input v-model="projectForm.title" type="text"
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                    placeholder="title" />
+                            <!-- Project Title with Tooltip -->
+                            <div class="relative group">
+                                <FwbInput aria-label="Project title" v-model="projectForm.title" :minlength="2"
+                                    label="Project Title" placeholder="My Project" class="w-full"
+                                    title="Enter a brief, descriptive title for your project (min. 2 characters)." />
+                                <span
+                                    class="absolute left-0 -top-6 text-sm text-gray-500 hidden group-hover:block">Enter
+                                    a unique project
+                                    title.</span>
                             </div>
+
+
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Author</label>
                                 <input v-model="projectForm.username" type="text" disabled
                                     class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                                     placeholder="author" />
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">Description</label>
-                                <textarea v-model="projectForm.description" rows="4"
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                    placeholder="description"></textarea>
+
+
+                            <!-- Project Description with Tooltip -->
+                            <div class="relative group">
+                                <FwbTextarea aria-label="Project description" v-model="projectForm.description"
+                                    :rows="4" label="Project Description" placeholder="Describe your project here..."
+                                    class="w-full" title="Provide a short summary of what your project is about." />
+                                <span class="left-0 -top-6 text-sm text-gray-500 hidden group-hover:block">A
+                                    detailed description will
+                                    help others understand your project.</span>
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">Instructions</label>
-                                <textarea v-model="projectForm.instructions" rows="6"
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                    placeholder="Write instructions for the project here... 
-          NB! Add numbers before each instruction.
-          Start by writing 1. Followed by text, then 2. With another instruction.
-          This will separate instructions on a new line."></textarea>
+
+                            <!-- Project Instructions with Tooltip -->
+                            <div class="relative group">
+                                <FwbTextarea aria-label="Project Instructions" v-model="projectForm.instructions"
+                                    :rows="10" label="Project Instructions" placeholder="Write instructions for the project here... 
+          1. instruction
+          2. instruction
+          3. instruction" class="w-full" title="Provide step-by-step instructions for completing your project." />
+                                <span class="left-0 -top-6 text-sm text-gray-500 hidden group-hover:block">
+                                    NB! Add numbers before each instruction. This allows separating the instructions
+                                    clearly.</span>
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">Materials</label>
-                                <input v-model="projectForm.materials" type="text"
-                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                    placeholder="materials" />
+
+                            <!-- Project Materials with Tooltip -->
+                            <div class="relative group">
+                                <FwbTextarea aria-label="Project materials" v-model="projectForm.materials" :rows="3"
+                                    label="Project Materials" placeholder="Materials required for the project"
+                                    class="w-full" title="List the materials needed to complete your project." />
+                                <span class="left-0 -top-6 text-sm text-gray-500 hidden group-hover:block">Mention
+                                    all necessary
+                                    materials clearly.</span>
                             </div>
                             <div class="flex space-x-4">
                                 <button @click="handleSubmit" class="confirm-cancel-button"><img

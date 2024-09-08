@@ -122,7 +122,10 @@ onMounted(async () => {
                                 <label class="block text-sm font-medium text-gray-700">Instructions</label>
                                 <textarea v-model="projectForm.instructions" rows="6"
                                     class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                    placeholder="instructions"></textarea>
+                                    placeholder="Write instructions for the project here... 
+          NB! Add numbers before each instruction.
+          Start by writing 1. Followed by text, then 2. With another instruction.
+          This will separate instructions on a new line."></textarea>
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Materials</label>

@@ -137,7 +137,8 @@ onMounted(fetchProjects)
           <!-- Previous Button -->
           <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" class="button-3d">
             <div class="button-top">
-              <span class="material-icons">❮</span>
+              <span v-if="currentPage > 1" class="material-icons">❮</span>
+              <span v-else class="material-icons text-gray-400">❮</span> <!-- Disabled icon -->
             </div>
             <div class="button-bottom"></div>
             <div class="button-base"></div>
@@ -149,7 +150,8 @@ onMounted(fetchProjects)
           <!-- Next Button -->
           <button @click="changePage(currentPage + 1)" :disabled="!hasMorePages" class="button-3d">
             <div class="button-top">
-              <span class="material-icons">❯</span>
+              <span v-if="hasMorePages" class="material-icons">❯</span>
+              <span v-else class="material-icons text-gray-400">❯</span> <!-- Disabled icon -->
             </div>
             <div class="button-bottom"></div>
             <div class="button-base"></div>
@@ -162,6 +164,26 @@ onMounted(fetchProjects)
 
 
 <style scoped>
+.button-3d:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+
+}
+
+.button-bottom:disabled {
+  background-image: linear-gradient(145deg, #999999, #cccccc);
+}
+
+
+.button-3d:disabled .button-top {
+  background-image: linear-gradient(145deg, #999999, #cccccc);
+}
+
+.button-3d:disabled .material-icons {
+  color: #999999;
+}
+
+
 .header-shine {
   color: #131010;
   background: linear-gradient(to right, #9f9f9f 0%, #fff 10%, #868686 20%);

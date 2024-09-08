@@ -2,7 +2,7 @@
 import { trpc } from '@/trpc'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { FwbButton, FwbHeading, FwbInput, FwbTextarea } from 'flowbite-vue'
+import { FwbHeading, FwbInput, FwbTextarea } from 'flowbite-vue'
 import useErrorMessage from '@/composables/useErrorMessage'
 import AlertError from '@/components/AlertError.vue'
 // import CreateCategory from './CreateCategory.vue'

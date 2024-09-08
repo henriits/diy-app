@@ -151,7 +151,7 @@ watch(existingImage, (newVal) => {
 <template>
     <div v-if="isLoggedIn" class="image-component">
         <img :src="uploadedFileUrl || 'https://via.placeholder.com/400x400'" alt="Project Image"
-            class="rounded-lg shadow-md project-image w-full" />
+            class="rounded-lg shadow-md project-image w-full" loading="lazy" />
         <!-- File Upload Section -->
         <div class="upload-section" v-if="!existingImage">
             <form @submit.prevent="uploadFile" class="upload-form">
@@ -164,7 +164,8 @@ watch(existingImage, (newVal) => {
 
         <!-- URL Submission Section -->
         <div v-if="!existingImage" class="url-section">
-            <textarea v-model="newImage" placeholder="Add image URL here" rows="1" class="url-input w-full"></textarea>
+            <textarea v-model="newImage" placeholder="https:// add url here" rows="1"
+                class="url-input w-full"></textarea>
             <button type="button" @click="submitImage" class="submit-button w-full">Submit URL</button>
             <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
             <div v-if="error" class="error-message">{{ error }}</div>
@@ -180,7 +181,7 @@ watch(existingImage, (newVal) => {
             </form>
             <p :class="messageClass" class="upload-message">{{ message }}</p>
             <div class="url-section">
-                <textarea v-model="newImage" placeholder="Update image URL here" rows="1"
+                <textarea v-model="newImage" placeholder="https:// update url here" rows="1"
                     class="url-input w-full"></textarea>
                 <button type="button" @click="submitImage" class="submit-button w-full">Submit URL</button>
             </div>
